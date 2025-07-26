@@ -1,4 +1,5 @@
 // pages/index.js
+
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
@@ -33,11 +34,11 @@ export default function Home() {
       </Head>
 
       <header className={styles.header}>
-        <h1>🔥 HypeScore</h1>
-        <p>Track what’s worth watching. Vote. Discuss. Decide.</p>
+        <h1 className={styles.title}>🔥 HypeScore</h1>
+        <p className={styles.description}>Track what’s worth watching. Vote. Discuss. Decide.</p>
       </header>
 
-      <main className={styles.main}> 
+      <main className={styles.main}>
         {movie ? (
           <div className={styles.card}>
             <h2>🎬 {movie.Title} ({movie.Year})</h2>
@@ -57,9 +58,18 @@ export default function Home() {
 
             <div className={styles.results}>
               <div className={styles.barContainer}>
-                <div className={styles.yesBar} style={{ width: `${(votes.yes / totalVotes) * 100}%` }} />
-                <div className={styles.maybeBar} style={{ width: `${(votes.maybe / totalVotes) * 100}%` }} />
-                <div className={styles.noBar} style={{ width: `${(votes.no / totalVotes) * 100}%` }} />
+                <div
+                  className={styles.yesBar}
+                  style={{ width: `${(votes.yes / totalVotes) * 100}%` }}
+                />
+                <div
+                  className={styles.maybeBar}
+                  style={{ width: `${(votes.maybe / totalVotes) * 100}%` }}
+                />
+                <div
+                  className={styles.noBar}
+                  style={{ width: `${(votes.no / totalVotes) * 100}%` }}
+                />
               </div>
               <p>
                 🔥 {votes.yes} Hype | 🤔 {votes.maybe} Maybe | 💤 {votes.no} Nah
@@ -80,6 +90,5 @@ export default function Home() {
     </div>
   );
 }
-
 
 
