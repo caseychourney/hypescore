@@ -2,23 +2,123 @@
 .container {
   padding: 0 2rem;
 }
-.main {
+
+main {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #0a0a0a;
+  color: #fff;
+  font-family: 'Helvetica Neue', sans-serif;
 }
+
 .title {
-  margin: 0;
   font-size: 4rem;
-}
-.description {
+  margin: 0;
   text-align: center;
 }
+
+.description {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #ccc;
+  text-align: center;
+}
+
 .card {
+  background: #1a1a1a;
+  padding: 2rem;
   margin-top: 2rem;
-  padding: 1.5rem;
-  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.poster {
+  margin-top: 1rem;
   border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.buttons button {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.buttons button:hover {
+  background-color: #444;
+  transform: scale(1.05);
+}
+
+.result {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.barContainer {
+  display: flex;
+  height: 12px;
+  background: #444;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.yesBar {
+  background: #00c853;
+  transition: width 0.4s ease-in-out;
+}
+
+.maybeBar {
+  background: #ffeb3b;
+  transition: width 0.4s ease-in-out;
+}
+
+.noBar {
+  background: #d32f2f;
+  transition: width 0.4s ease-in-out;
+}
+
+.footer {
+  margin-top: 4rem;
+  font-size: 0.9rem;
+  color: #888;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .buttons button {
+    width: 100%;
+  }
 }
