@@ -42,7 +42,7 @@ export default function Home() {
           <div className={styles.card}>
             <h2>🎬 {movie.Title} ({movie.Year})</h2>
             {movie.Poster && movie.Poster !== 'N/A' ? (
-              <img src={movie.Poster} alt={`${movie.Title} Poster`} style={{ width: '300px', borderRadius: '8px' }} />
+              <img src={movie.Poster} alt={`${movie.Title} Poster`} className={styles.poster} />
             ) : (
               <p>No poster available</p>
             )}
@@ -80,5 +80,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 
