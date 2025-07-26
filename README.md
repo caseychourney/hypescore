@@ -1,2 +1,3 @@
-# hypescore
-MVP for the HypeScore.net movie/TV/game rating platform
+# HypeScore MVP
+
+This is the starter project for HypeScore.net built with Next.js.
