@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function Home() {
   const [votes, setVotes] = useState({ yes: 12, maybe: 6, no: 2 });
-  const [poster, setPoster] = useState(null);
+  const [movie, setMovie] = useState(null);
 
   const totalVotes = votes.yes + votes.maybe + votes.no;
 
@@ -14,22 +14,16 @@ export default function Home() {
     setVotes({ ...votes, [type]: votes[type] + 1 });
   };
 
-  // 🧠 Fetch poster from OMDb API
   useEffect(() => {
-    const fetchPoster = async () => {
-      try {
-        const res = await fetch(
-          `https://www.omdbapi.com/?t=Deadpool+%26+Wolverine&y=2024&apikey=YOUR_OMDB_API_KEY`
-        );
-        const data = await res.json();
-        if (data.Poster && data.Poster !== 'N/A') {
-          setPoster(data.Poster);
-        }
-      } catch (err) {
-        console.error('Error fetching poster:', err);
-      }
-    };
-    fetchPoster();
+    async function fetchMovie() {
+      const res = await fetch(
+        `https://www.omdbapi.com/?t=Deadpool+%26+Wolverine&y=2024&apikey=15e40a81`
+      );
+      const data = await res.json();
+      setMovie(data);
+    }
+
+    fetchMovie();
   }, []);
 
   return (
@@ -49,10 +43,14 @@ export default function Home() {
 
       <main className={styles.main}>
         <div className={styles.card}>
-          <h2>🎬 Deadpool & Wolverine (2024)</h2>
+          <h2>🎬 {movie ? `${movie.Title} (${movie.Year})` : 'Loading...'}</h2>
 
-          {poster ? (
-            <img src={poster} alt="Movie Poster" className={styles.poster} />
+          {movie && movie.Poster !== 'N/A' ? (
+            <img
+              src={movie.Poster}
+              alt={`${movie.Title} Poster`}
+              className={styles.poster}
+            />
           ) : (
             <p>Loading poster...</p>
           )}
@@ -96,4 +94,5 @@ export default function Home() {
     </div>
   );
 }
+
 
