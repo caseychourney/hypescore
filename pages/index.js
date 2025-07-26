@@ -1,17 +1,36 @@
 // pages/index.js
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
   const [votes, setVotes] = useState({ yes: 12, maybe: 6, no: 2 });
+  const [poster, setPoster] = useState(null);
 
   const totalVotes = votes.yes + votes.maybe + votes.no;
 
   const handleVote = (type) => {
     setVotes({ ...votes, [type]: votes[type] + 1 });
   };
+
+  // 🧠 Fetch poster from OMDb API
+  useEffect(() => {
+    const fetchPoster = async () => {
+      try {
+        const res = await fetch(
+          `https://www.omdbapi.com/?t=Deadpool+%26+Wolverine&y=2024&apikey=YOUR_OMDB_API_KEY`
+        );
+        const data = await res.json();
+        if (data.Poster && data.Poster !== 'N/A') {
+          setPoster(data.Poster);
+        }
+      } catch (err) {
+        console.error('Error fetching poster:', err);
+      }
+    };
+    fetchPoster();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -31,11 +50,13 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.card}>
           <h2>🎬 Deadpool & Wolverine (2024)</h2>
-          <img
-            src="/poster.jpg"
-            alt="Deadpool Poster"
-            className={styles.poster}
-          />
+
+          {poster ? (
+            <img src={poster} alt="Movie Poster" className={styles.poster} />
+          ) : (
+            <p>Loading poster...</p>
+          )}
+
           <p>Is this going to be the movie of the year?</p>
 
           <div className={styles.buttons}>
@@ -75,3 +96,4 @@ export default function Home() {
     </div>
   );
 }
+
