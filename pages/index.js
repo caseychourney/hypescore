@@ -37,7 +37,7 @@ export default function Home() {
         <p>Track what’s worth watching. Vote. Discuss. Decide.</p>
       </header>
 
-      <main className={styles.main}>
+      <main className={styles.main}> 
         {movie ? (
           <div className={styles.card}>
             <h2>🎬 {movie.Title} ({movie.Year})</h2>
