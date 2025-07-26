@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useState } from 'react';
-
+import Link from 'next/link';
 export default function Home() {
   const [votes, setVotes] = useState({ yes: 12, maybe: 6, no: 2 });
 
