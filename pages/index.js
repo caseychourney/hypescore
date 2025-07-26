@@ -3,6 +3,7 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useState } from 'react';
 import Link from 'next/link';
+
 export default function Home() {
   const [votes, setVotes] = useState({ yes: 12, maybe: 6, no: 2 });
 
@@ -16,7 +17,10 @@ export default function Home() {
     <div className={styles.container}>
       <Head>
         <title>HypeScore</title>
-        <meta name="description" content="Rate and review the latest movies, shows, and games with live Hype Scores." />
+        <meta
+          name="description"
+          content="Rate and review the latest movies, shows, and games with live Hype Scores."
+        />
       </Head>
 
       <header className={styles.header}>
@@ -27,7 +31,11 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.card}>
           <h2>🎬 Deadpool & Wolverine (2024)</h2>
-          <img src="/poster.jpg" alt="Deadpool Poster" className={styles.poster} />
+          <img
+            src="/poster.jpg"
+            alt="Deadpool Poster"
+            className={styles.poster}
+          />
           <p>Is this going to be the movie of the year?</p>
 
           <div className={styles.buttons}>
@@ -38,9 +46,18 @@ export default function Home() {
 
           <div className={styles.results}>
             <div className={styles.barContainer}>
-              <div className={styles.yesBar} style={{ width: `${(votes.yes / totalVotes) * 100}%` }} />
-              <div className={styles.maybeBar} style={{ width: `${(votes.maybe / totalVotes) * 100}%` }} />
-              <div className={styles.noBar} style={{ width: `${(votes.no / totalVotes) * 100}%` }} />
+              <div
+                className={styles.yesBar}
+                style={{ width: `${(votes.yes / totalVotes) * 100}%` }}
+              />
+              <div
+                className={styles.maybeBar}
+                style={{ width: `${(votes.maybe / totalVotes) * 100}%` }}
+              />
+              <div
+                className={styles.noBar}
+                style={{ width: `${(votes.no / totalVotes) * 100}%` }}
+              />
             </div>
             <p>
               🔥 {votes.yes} Hype | 🤔 {votes.maybe} Maybe | 💤 {votes.no} Nah
@@ -50,11 +67,10 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        Built with Next.js • Domain: hypescore.net
-
-  <p style={{ marginTop: '2rem' }}>
-  <Link href="/leaderboard">🎬 View Leaderboard</Link>
-</p>
+        <p>Built with Next.js • Domain: hypescore.net</p>
+        <p style={{ marginTop: '1rem' }}>
+          <Link href="/leaderboard">🎬 View Leaderboard</Link>
+        </p>
       </footer>
     </div>
   );
