@@ -51,6 +51,10 @@ export default function Home() {
 
       <footer className={styles.footer}>
         Built with Next.js • Domain: hypescore.net
+
+  <p style={{ marginTop: '2rem' }}>
+  <Link href="/leaderboard">🎬 View Leaderboard</Link>
+</p>
       </footer>
     </div>
   );
