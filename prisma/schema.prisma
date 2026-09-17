@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum MovieStatus { UPCOMING RELEASED STREAMING }
+enum HypeChoice { YES MAYBE NO }
+enum ModerationState { PENDING APPROVED REJECTED }
+model User {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  votes HypeVote[]
+  watches Watch[]
+  reviews Review[]
+  shares Share[]
+}
+model Movie {
+  id String @id @default(cuid())
+  slug String @unique
+  title String
+  status MovieStatus @default(UPCOMING)
+  releaseDate DateTime?
+  runtimeMinutes Int?
+  certification String?
+  genres Json?
+  posterUrl String?
+  backdropUrl String?
+  sourceProvider String?
+  sourceProviderId String?
+  sourceAttribution String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  votes HypeVote[]
+  events HypeEvent[]
+  snapshots HypeSnapshot[]
+  releaseSnapshot HypeReleaseSnapshot?
+  watches Watch[]
+  reviews Review[]
+  shares Share[]
+  @@index([status, releaseDate])
+}
+model HypeVote {
+  id String @id @default(cuid())
+  userId String
+  movieId String
+  choice HypeChoice
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  watchedAt DateTime?
+  invalidatedAt DateTime?
+  trustWeight Float @default(1)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  audit HypeVoteAudit[]
+  @@unique([userId, movieId])
+  @@index([movieId, invalidatedAt, watchedAt])
+}
+model HypeVoteAudit {
+  id String @id @default(cuid())
+  voteId String
+  oldChoice HypeChoice?
+  newChoice HypeChoice?
+  action String
+  reason String?
+  createdAt DateTime @default(now())
+  vote HypeVote @relation(fields: [voteId], references: [id], onDelete: Cascade)
+  @@index([voteId, createdAt])
+}
+model HypeEvent {
+  id String @id @default(cuid())
+  movieId String
+  type String
+  occurredAt DateTime
+  publishedAt DateTime?
+  sourceName String?
+  sourceUrl String?
+  headline String?
+  summary String?
+  confidence Float?
+  moderation ModerationState @default(PENDING)
+  createdAt DateTime @default(now())
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  @@index([movieId, occurredAt])
+}
+model HypeSnapshot {
+  id String @id @default(cuid())
+  movieId String
+  capturedAt DateTime @default(now())
+  score Int
+  effectiveVotes Float
+  rawVotes Int
+  engineVersion String
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  @@index([movieId, capturedAt])
+}
+model HypeReleaseSnapshot {
+  id String @id @default(cuid())
+  movieId String @unique
+  releaseAt DateTime
+  score Int
+  effectiveVotes Float
+  rawVotes Int
+  engineVersion String
+  createdAt DateTime @default(now())
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+}
+model Watch {
+  id String @id @default(cuid())
+  userId String
+  movieId String
+  watchedAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  @@unique([userId, movieId])
+  @@index([movieId, watchedAt])
+}
+model Review {
+  id String @id @default(cuid())
+  userId String
+  movieId String
+  writing Int
+  acting Int
+  story Int
+  characters Int
+  visuals Int
+  musicSound Int
+  entertainment Int
+  overall Int
+  body String?
+  moderation ModerationState @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  @@unique([userId, movieId])
+  @@index([movieId, moderation, createdAt])
+}
+model Publisher {
+  id String @id @default(cuid())
+  name String
+  domain String @unique
+  verified Boolean @default(false)
+  widgetTheme Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  shares Share[]
+}
+model Share {
+  id String @id @default(cuid())
+  movieId String
+  publisherId String?
+  userId String?
+  platform String
+  cardVersion String
+  referral Json?
+  createdAt DateTime @default(now())
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  publisher Publisher? @relation(fields: [publisherId], references: [id], onDelete: SetNull)
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  @@index([movieId, platform, createdAt])
+}
