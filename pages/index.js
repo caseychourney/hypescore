@@ -72,11 +72,16 @@ export default function Home() {
     Entertainment: 9,
   });
   const [submitted, setSubmitted] = useState(false);
+  const [shared, setShared] = useState(false);
 
   const overall = useMemo(() => {
     const values = Object.values(sliders);
     return (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(1);
   }, [sliders]);
+
+  const postWatchScore = Number(overall) * 10;
+  const hypeGap = postWatchScore - selectedMovie.hype;
+  const verdict = hypeGap >= 5 ? 'HYPE DELIVERED' : hypeGap <= -5 ? 'HYPE MISSED' : 'HYPE MET EXPECTATIONS';
 
   const handleSlider = (category, value) => {
     setSubmitted(false);
@@ -239,10 +244,18 @@ export default function Home() {
               <p>HypeScore compares what you expected before watching with what you actually thought afterward.</p>
             </div>
             <div className={styles.worthMeter}>
-              <div className={styles.meterLabels}><span>BEFORE</span><strong>{selectedMovie.hype}</strong><span>AFTER</span><strong>{overall}</strong></div>
-              <div className={styles.meterTrack}><div style={{ width: Math.min(100, Number(overall) * 10) + '%' }} /></div>
-              <span className={styles.worthBadge}>{Number(overall) >= selectedMovie.hype / 10 ? 'WORTH THE HYPE' : 'UNDER THE HYPE'}</span>
+              <div className={styles.meterLabels}><span>BEFORE</span><strong>{selectedMovie.hype}</strong><span>AFTER</span><strong>{postWatchScore}</strong></div>
+              <div className={styles.meterTrack}><div style={{ width: Math.min(100, postWatchScore) + '%' }} /></div>
+              <span className={styles.worthBadge}>{verdict}</span>
             </div>
+          </div>
+        </section>
+
+        <section className={styles.shareSection}>
+          <div className={styles.shareCard}>
+            <div className={styles.sharePoster}><img src={selectedMovie.poster} alt="" /></div>
+            <div className={styles.shareMain}><p className={styles.eyebrow}>SHAREABLE HYPE CARD</p><h2>{selectedMovie.title}</h2><div className={styles.shareScore}>{selectedMovie.hype}</div><span>HYPESCORE</span><p>{selectedMovie.change >= 0 ? '↗' : '↘'} {Math.abs(selectedMovie.change)} this week · {selectedMovie.reviews.toLocaleString()} ratings</p></div>
+            <button className={styles.shareButton} onClick={() => setShared(true)}>{shared ? 'Ready to share ✓' : 'Create share card'} <span>→</span></button>
           </div>
         </section>
 
