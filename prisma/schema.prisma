@@ -58,8 +58,6 @@ model Movie {
   trailerUrl String?
   imdbId String?
   tmdbId Int?
-  popularity Float?
-  isInTheatres Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   votes HypeVote[]
