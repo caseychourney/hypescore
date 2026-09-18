@@ -7,7 +7,7 @@ const movieData = {
   'practical-magic-2': {
     title: 'Practical Magic 2', year: 2026, release: 'September 11, 2026', runtime: '2h 10m',
     genre: 'Fantasy • Comedy • Drama', rating: 'PG-13', hype: 87, momentum: 6,
-    audience: 6.4, critic: 38, voters: 5200, budget: '$75M', boxOffice: '$55.8M',
+    audience: 6.4, criticAverage: 3.8, voters: 5200, criticReviews: 84, budget: '$75M', boxOffice: '$55.8M',
     trailerId: 'Ho10_4IX1jE',
     poster: 'https://www.practicalmagicmovie.com/assets/images/mobilebanner.jpg',
     backdrop: 'https://www.practicalmagicmovie.com/assets/images/ipadbannerportrait.jpg',
@@ -16,7 +16,7 @@ const movieData = {
   'spider-man-brand-new-day': {
     title: 'Spider-Man: Brand New Day', year: 2026, release: 'July 31, 2026', runtime: '2h 30m',
     genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 94, momentum: 3,
-    audience: 7.8, critic: 82, voters: 8200, budget: '$225M', boxOffice: '$2.451B',
+    audience: 7.8, criticAverage: 8.2, voters: 8200, criticReviews: 214, budget: '$225M', boxOffice: '$2.451B',
     trailerId: 'ESpuGLRifs8',
     poster: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/9JCQtDCSpPR2ld55yNlEg1VwcQo.jpg',
     backdrop: 'https://image.tmdb.org/t/p/w533_and_h300_bestv2/63JYqhefGrbVg0YqZ3xWqn0pwT2.jpg',
@@ -25,7 +25,7 @@ const movieData = {
   'the-odyssey': {
     title: 'The Odyssey', year: 2026, release: 'July 17, 2026', runtime: '2h 52m',
     genre: 'Action • Adventure • Fantasy', rating: 'R', hype: 91, momentum: 2,
-    audience: 8.0, critic: 95, voters: 7600, budget: '$250M', boxOffice: '$1.685B',
+    audience: 8.0, criticAverage: 9.5, voters: 7600, criticReviews: 176, budget: '$250M', boxOffice: '$1.685B',
     trailerId: 'vyCVVjA28fo',
     poster: 'https://dx35vtwkllhj9.cloudfront.net/universalstudios/the-odyssey/images/regions/ca/updates1/onesheet.jpg',
     backdrop: 'https://dx35vtwkllhj9.cloudfront.net/universalstudios/the-odyssey/images/regions/ca/updates1/onesheet.jpg',
@@ -34,7 +34,7 @@ const movieData = {
   'coyote-vs-acme': {
     title: 'Coyote vs. Acme', year: 2026, release: 'August 28, 2026', runtime: '1h 43m',
     genre: 'Adventure • Comedy • Family', rating: 'PG', hype: 79, momentum: 4,
-    audience: 7.5, critic: 96, voters: 4100, budget: '$70M', boxOffice: '$66.7M',
+    audience: 7.5, criticAverage: 9.6, voters: 4100, criticReviews: 73, budget: '$70M', boxOffice: '$66.7M',
     trailerId: 'b76pK6uYQfA',
     poster: 'https://dx35vtwkllhj9.cloudfront.net/ketchup-entertainment/coyote-vs-acme/images/regions/us/onesheet.jpg',
     backdrop: 'https://dx35vtwkllhj9.cloudfront.net/ketchup-entertainment/coyote-vs-acme/images/regions/us/onesheet.jpg',
@@ -126,10 +126,10 @@ export default function MoviePage({ movie }) {
               <h1>{movie.title}</h1>
               <p className={styles.detailMeta}>{movie.year} · {movie.runtime} · {movie.rating} · {movie.genre}</p>
               <p className={styles.detailLead}>The score people use before they buy the ticket — and the score they check after the credits.</p>
-              <div className={styles.detailActions}><button className={styles.primaryButton} onClick={() => setTrailerOpen(true)}>Watch trailer <span>▶</span></button><button className={styles.secondaryButton} onClick={() => setSaved(!saved)}>{saved ? 'In My Hype ✓' : '+ My Hype'}</button></div>
+              <div className={styles.detailActions}><a className={styles.primaryButton} href="https://www.fandango.com/" target="_blank" rel="noreferrer">Get tickets <span>🎟️</span></a><button className={styles.secondaryButton} onClick={() => setTrailerOpen(true)}>Watch trailer <span>▶</span></button><button className={styles.secondaryButton} onClick={() => setSaved(!saved)}>{saved ? 'In My Hype ✓' : '+ My Hype'}</button></div>
               <div className={styles.detailScores}>
                 <div><span>HYPE SCORE</span><strong>{movie.hype}</strong><small>↗ +{movie.momentum} this week</small></div>
-                <div><span>CRITIC SCORE</span><strong>{movie.critic}</strong><small>aggregated</small></div>
+                <div><span>CRITIC AVERAGE</span><strong>{movie.criticAverage.toFixed(1)}</strong><small>{movie.criticReviews} professional reviews</small></div>
                 <div><span>AUDIENCE</span><strong>{movie.audience}</strong><small>/ 10</small></div>
               </div>
             </div>
@@ -162,6 +162,16 @@ export default function MoviePage({ movie }) {
             <article><span>🔥 HYPE</span><strong>{movie.hype}</strong><p>How excited people were before watching.</p></article>
             <article><span>🍿 AUDIENCE</span><strong>{movie.audience}</strong><p>How people who watched it rated it.</p></article>
             <article><span>🎯 DELIVERED</span><strong>{delivered > 0 ? '+' : ''}{delivered}</strong><p>Audience reaction compared with pre-watch hype.</p></article>
+          </div>
+        </section>
+
+        <section className={styles.detailSection}>
+          <div className={styles.detailTitle}><p className={styles.eyebrow}>MOVIE INTELLIGENCE</p><h2>Everything around the movie.</h2></div>
+          <div className={styles.movieIntelGrid}>
+            <article><span>PROFESSIONAL AVERAGE</span><strong>{movie.criticAverage.toFixed(1)}<small>/ 10</small></strong><p>{movie.criticReviews} professional reviews</p></article>
+            <article><span>BOX OFFICE</span><strong>{movie.boxOffice}</strong><p>Reported worldwide gross</p></article>
+            <article><span>BUDGET</span><strong>{movie.budget}</strong><p>Reported production budget</p></article>
+            <article className={styles.ticketIntel}><span>SEE IT</span><strong>Get showtimes</strong><p>Continue to Fandango for current theatres and ticket purchase.</p><a href="https://www.fandango.com/" target="_blank" rel="noreferrer">Find tickets →</a></article>
           </div>
         </section>
 
