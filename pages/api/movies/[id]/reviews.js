@@ -19,6 +19,7 @@ export default async function handler(req, res) {
   try {
     const userId=String(body.userId||'');
     if(!userId) return res.status(400).json({error:'userId is required until authentication is connected'});
+    await prisma.user.upsert({ where:{id:userId}, update:{}, create:{id:userId} });
     const movie=await prisma.movie.findFirst({where:{OR:[{id:String(id)},{slug:String(id)}]}});
     if(!movie) return res.status(404).json({error:'Movie not found'});
     const review=await prisma.review.upsert({
