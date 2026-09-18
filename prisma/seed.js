@@ -3,10 +3,10 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const movies = [
-  { slug: 'superman', title: 'Superman', status: 'RELEASED', releaseDate: new Date('2025-07-11T00:00:00Z'), sourceProvider: 'demo', sourceProviderId: 'superman' },
-  { slug: 'fantastic-four-first-steps', title: 'The Fantastic Four: First Steps', status: 'RELEASED', releaseDate: new Date('2025-07-25T00:00:00Z'), sourceProvider: 'demo', sourceProviderId: 'fantastic-four-first-steps' },
-  { slug: 'dune-part-two', title: 'Dune: Part Two', status: 'RELEASED', releaseDate: new Date('2024-03-01T00:00:00Z'), sourceProvider: 'demo', sourceProviderId: 'dune-part-two' },
-  { slug: 'deadpool-and-wolverine', title: 'Deadpool & Wolverine', status: 'RELEASED', releaseDate: new Date('2024-07-26T00:00:00Z'), sourceProvider: 'demo', sourceProviderId: 'deadpool-and-wolverine' },
+  { slug: 'practical-magic-2', title: 'Practical Magic 2', status: 'RELEASED', releaseDate: new Date('2026-09-11T00:00:00Z'), sourceProvider: 'demo', sourceProviderId: 'practical-magic-2' },
+  { slug: 'spider-man-brand-new-day', title: 'Spider-Man: Brand New Day', status: 'RELEASED', releaseDate: new Date('2026-07-31T00:00:00Z'), sourceProvider: 'demo', sourceProviderId: 'spider-man-brand-new-day' },
+  { slug: 'the-odyssey', title: 'The Odyssey', status: 'RELEASED', releaseDate: new Date('2026-07-17T00:00:00Z'), sourceProvider: 'demo', sourceProviderId: 'the-odyssey' },
+  { slug: 'coyote-vs-acme', title: 'Coyote vs. Acme', status: 'RELEASED', releaseDate: new Date('2026-08-28T00:00:00Z'), sourceProvider: 'demo', sourceProviderId: 'coyote-vs-acme' },
 ];
 
 async function main() {
