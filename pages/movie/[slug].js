@@ -77,7 +77,7 @@ const categories = ['Writing', 'Acting', 'Story', 'Characters', 'Visuals', 'Musi
 
 export default function MoviePage({ movie }) {
   const events = movie.events;
-  const trivia = triviaBySlug[Object.keys(movieData).find((key) => movieData[key] === movie)] || [];
+  const trivia = triviaBySlug[Object.keys(movieData).find((key) => movieData[key].title === movie.title)] || [];
   const [scores, setScores] = useState(Object.fromEntries(categories.map((c) => [c, 8])));
   const [spoiler, setSpoiler] = useState(false);
   const [saved, setSaved] = useState(false);
