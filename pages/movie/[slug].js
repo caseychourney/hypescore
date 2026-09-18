@@ -191,6 +191,9 @@ export default function MoviePage({ movie:rawMovie }) {
       <Head>
         <title>{movie.title} — HypeScore</title>
         <meta name="description" content={(movie.overview || '').slice(0,155)} />
+        <meta property="og:title" content={movie.title + ' — HypeScore ' + (movie.hype || '')} />
+        <meta property="og:description" content={'Track the hype for ' + movie.title + '.'} />
+        {movie.poster && <meta property="og:image" content={movie.poster} />}
       </Head>
 
       <header className={styles.nav}>
@@ -458,7 +461,7 @@ export default function MoviePage({ movie:rawMovie }) {
             <div className={styles.shareCard}>
               <div className={styles.sharePoster}><img src={posterSrc} alt="" /></div>
               <div className={styles.shareMain}><span>HYPESCORE CARD</span><h2>{movie.title} <b className={styles.shareScore}>{movie.hype || '—'}</b></h2><p>Audience anticipation before the movie is watched.</p></div>
-              <button className={styles.shareButton} onClick={async()=>{try{await navigator.clipboard.writeText(window.location.href);setHypeMessage('Movie link copied.');}catch{setHypeMessage('Copy the page URL to share this HypeScore.');}}}>Share Hype ↗</button>
+              <button className={styles.shareButton} onClick={async()=>{try{await fetch('/api/share',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({movieId:rawMovie.id||rawMovie.slug,platform:'web'})});}catch{} try{if(navigator.share){await navigator.share({title:movie.title+' — HypeScore',text:'Track the hype for '+movie.title+'.',url:window.location.href});}else{await navigator.clipboard.writeText(window.location.href);}setHypeMessage('HypeScore ready to share.');}catch{setHypeMessage('Movie link copied or ready to share.');}}}>Share Hype ↗</button>
             </div>
           </section>
 
