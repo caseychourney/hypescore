@@ -145,15 +145,13 @@ export default function MoviePage({ movie:rawMovie }) {
   }, [scores]);
 
   const trailerId = youtubeId(movie.trailerUrl);
-  const trailerSearchUrl = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(movie.title + ' official trailer');
   const hypeDelivered = movie.audience ? Math.round(movie.audience * 10 - movie.hype) : null;
   const posterSrc = posterBroken ? '/movie-poster-fallback.svg' : movie.poster;
   const cast = movie.cast.filter(c => c.person?.slug).slice(0,18);
   const directors = movie.crew.filter(c => c.person?.slug && String(c.job || '').toLowerCase().includes('director')).slice(0,4);
 
   function openTrailer() {
-    if (trailerId) setTrailerOpen(true);
-    else if (typeof window !== 'undefined') window.open(trailerSearchUrl, '_blank', 'noopener,noreferrer');
+    setTrailerOpen(true);
   }
 
   return (
@@ -198,9 +196,6 @@ export default function MoviePage({ movie:rawMovie }) {
                   />
                   <div className={styles.posterBadge}><strong>{movie.hype || '—'}</strong><span>HYPE</span></div>
                 </div>
-                <button className={styles.posterTrailerButton} onClick={openTrailer}>
-                  <span>▶</span> Watch Trailer
-                </button>
               </div>
 
               <div className={styles.movieHeroCopy}>
@@ -386,7 +381,13 @@ export default function MoviePage({ movie:rawMovie }) {
         <div className={styles.trailerOverlay} onMouseDown={e => { if (e.target === e.currentTarget) setTrailerOpen(false); }}>
           <div className={styles.trailerModal}>
             <div className={styles.trailerHeader}><div><p className={styles.eyebrow}>OFFICIAL TRAILER</p><h2>{movie.title}</h2></div><button className={styles.trailerClose} aria-label="Close trailer" onClick={() => setTrailerOpen(false)}>×</button></div>
-            <div className={styles.trailerFrame}><iframe src={'https://www.youtube.com/embed/' + trailerId + '?autoplay=1&rel=0'} title={movie.title + ' trailer'} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /></div>
+            <div className={styles.trailerFrame}>
+              {trailerId ? (
+                <iframe src={'https://www.youtube.com/embed/' + trailerId + '?autoplay=1&rel=0'} title={movie.title + ' trailer'} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+              ) : (
+                <div className={styles.trailerUnavailable}><strong>Trailer coming soon</strong><span>We're still adding the official trailer for this movie.</span></div>
+              )}
+            </div>
           </div>
         </div>
       )}
