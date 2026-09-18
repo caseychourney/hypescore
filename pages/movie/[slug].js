@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import styles from '../../styles/Home.module.css';
 import { prisma } from '../../lib/prisma';
+import { getFallbackMovie } from '../../lib/fallbackMovies';
 
 const categories = ['Writing','Acting','Story','Characters','Visuals','Music','Entertainment'];
 const fallback = {
@@ -30,7 +31,11 @@ export async function getStaticPaths() { return { paths:[], fallback:'blocking' 
 export async function getStaticProps({params}) {
   try {
     const movie = await prisma.movie.findUnique({ where:{slug:params.slug}, include:{ cast:{include:{person:true},orderBy:{billingOrder:'asc'}}, crew:{include:{person:true}}, watchProviders:true, releaseSnapshot:{select:{score:true}}, snapshots:{orderBy:{capturedAt:'desc'},take:1,select:{score:true}} } });
-    if (!movie) return { notFound:true };
+    if (!movie) {
+      const fallbackMovie = getFallbackMovie(params.slug);
+      if (!fallbackMovie) return { notFound:true };
+      return { props:{ movie:JSON.parse(JSON.stringify(fallbackMovie)) }, revalidate:300 };
+    }
     const hype = movie.releaseSnapshot?.score ?? movie.snapshots?.[0]?.score ?? 0;
     return { props:{ movie:JSON.parse(JSON.stringify({...movie, hype})) }, revalidate:300 };
   } catch (error) { console.error('Movie page lookup failed',error); return { notFound:true }; }
