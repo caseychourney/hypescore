@@ -178,7 +178,7 @@ export default function Home() {
                   <p>{movie.year} · {movie.genre}</p>
                   <span>{movie.reviews.toLocaleString()} audience ratings</span>
                 </div>
-              </button>
+              </Link>
             ))}
           </div>
         </section>
