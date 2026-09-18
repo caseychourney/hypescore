@@ -3,10 +3,10 @@ import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 
 const rows = [
-  ['Superman', 92, '+8', 'New trailer'],
-  ['Deadpool & Wolverine', 89, '+4', 'New clip'],
-  ['The Fantastic Four: First Steps', 88, '+5', 'Casting news'],
-  ['Dune: Part Two', 86, '-2', 'Audience reviews'],
+  ['Spider-Man: Brand New Day', 94, '+3', 'Now playing'],
+  ['The Odyssey', 91, '+2', 'Now playing'],
+  ['Practical Magic 2', 87, '+6', 'Now playing'],
+  ['Coyote vs. Acme', 79, '+4', 'Now playing'],
 ];
 
 export default function Leaderboard() {
