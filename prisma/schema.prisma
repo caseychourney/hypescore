@@ -43,6 +43,21 @@ model Movie {
   sourceProvider String?
   sourceProviderId String?
   sourceAttribution String?
+  tagline String?
+  overview String?
+  originalLanguage String?
+  productionCompanies Json?
+  budgetUsd BigInt?
+  boxOfficeDomesticUsd BigInt?
+  boxOfficeInternationalUsd BigInt?
+  boxOfficeWorldwideUsd BigInt?
+  criticAverage Float?
+  criticReviewCount Int?
+  audienceAverage Float?
+  audienceRatingCount Int?
+  trailerUrl String?
+  imdbId String?
+  tmdbId Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   votes HypeVote[]
@@ -52,6 +67,10 @@ model Movie {
   watches Watch[]
   reviews Review[]
   shares Share[]
+  cast MovieCast[]
+  crew MovieCrew[]
+  watchProviders WatchProvider[]
+  showtimes Showtime[]
   @@index([status, releaseDate])
 }
 model HypeVote {
@@ -173,4 +192,66 @@ model Share {
   publisher Publisher? @relation(fields: [publisherId], references: [id], onDelete: SetNull)
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
   @@index([movieId, platform, createdAt])
+}
+
+model Person {
+  id String @id @default(cuid())
+  name String
+  slug String @unique
+  photoUrl String?
+  biography String?
+  imdbId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  castCredits MovieCast[]
+  crewCredits MovieCrew[]
+}
+
+model MovieCast {
+  id String @id @default(cuid())
+  movieId String
+  personId String
+  characterName String?
+  billingOrder Int?
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+  @@unique([movieId, personId])
+  @@index([personId, billingOrder])
+}
+
+model MovieCrew {
+  id String @id @default(cuid())
+  movieId String
+  personId String
+  department String
+  job String
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  person Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+  @@index([movieId, department])
+  @@index([personId, department])
+}
+
+model WatchProvider {
+  id String @id @default(cuid())
+  movieId String
+  name String
+  kind String
+  url String?
+  region String?
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  @@index([movieId, region, kind])
+}
+
+model Showtime {
+  id String @id @default(cuid())
+  movieId String
+  provider String
+  theatreName String
+  theatreAddress String?
+  startsAt DateTime
+  format String?
+  bookingUrl String?
+  region String?
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  @@index([movieId, startsAt])
 }
