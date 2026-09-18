@@ -344,12 +344,18 @@ export default function MoviePage({ movie:rawMovie }) {
                     <div className={styles.castGrid}>
                       {directors.map((c,i) => (
                         <Link key={'d'+(c.id || i)} href={'/person/' + c.person.slug} className={styles.castCard}>
+                          <div className={styles.castPhotoWrap}>
+                            {c.person.photoUrl ? <img src={c.person.photoUrl} alt="" /> : <span>{c.person.name?.charAt(0) || '?'}</span>}
+                          </div>
                           <span className={styles.castName}>{c.person.name}</span>
                           <small>Director</small>
                         </Link>
                       ))}
                       {cast.map((c,i) => (
                         <Link key={c.id || i} href={'/person/' + c.person.slug} className={styles.castCard}>
+                          <div className={styles.castPhotoWrap}>
+                            {c.person.photoUrl ? <img src={c.person.photoUrl} alt="" /> : <span>{c.person.name?.charAt(0) || '?'}</span>}
+                          </div>
                           <span className={styles.castName}>{c.person.name}</span>
                           <small>{c.characterName || 'Cast'}</small>
                         </Link>
