@@ -24,7 +24,7 @@ const movies = [
     releaseDate: new Date('2026-07-17T00:00:00Z'),
     runtimeMinutes: 172,
     genres: ['Action', 'Adventure', 'Fantasy'],
-    posterUrl: 'https://dx35vtwkllhj9.cloudfront.net/universalstudios/the-odyssey/images/regions/ca/updates1/onesheet.jpg',
+    posterUrl: 'https://image.tmdb.org/t/p/w500/x5JKwcrl7NzaSWfTFh6bIPCsqJd.jpg',
     overview: 'Christopher Nolan’s mythic action epic inspired by Homer’s Odyssey.',
     tagline: 'Defy the gods.',
     sourceProvider: 'tmdb',
