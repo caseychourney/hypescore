@@ -4,37 +4,41 @@ import { useEffect, useMemo, useState } from 'react';
 import styles from '../../styles/Home.module.css';
 
 const movieData = {
-  'superman': {
-    title: 'Superman', year: 2025, release: 'July 11, 2025', runtime: '2h 9m',
-    genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 92, momentum: 8,
-    audience: 8.7, critic: 91, voters: 1842, budget: '$225M', boxOffice: '$618.7M',
-    poster: 'https://image.tmdb.org/t/p/w780/ombsmhYUqR4qqOLOxAyr5V8hbyv.jpg', trailerId: 'Ox8ZLF6cGM0',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/9whEVuKte4Qi0LI4TzG7hH4wR7G.jpg',
-    events: [['JUL 2024','Casting revealed','+4'],['FEB 2025','First teaser','+6'],['MAR 2025','Trailer released','+8'],['JUN 2025','Early reactions','-2']]
+  'practical-magic-2': {
+    title: 'Practical Magic 2', year: 2026, release: 'September 11, 2026', runtime: '2h 10m',
+    genre: 'Fantasy • Comedy • Drama', rating: 'PG-13', hype: 87, momentum: 6,
+    audience: 6.4, critic: 38, voters: 5200, budget: '$75M', boxOffice: '$55.8M',
+    trailerId: 'Ho10_4IX1jE',
+    poster: 'https://www.practicalmagicmovie.com/assets/images/mobilebanner.jpg',
+    backdrop: 'https://www.practicalmagicmovie.com/assets/images/ipadbannerportrait.jpg',
+    events: [['SEP 11','Released in theaters','LIVE'],['SEP 13','Opened at #1','NOW'],['SEP 16','Box office update','NOW']]
   },
-  'fantastic-four-first-steps': {
-    title: 'The Fantastic Four: First Steps', year: 2025, release: 'July 25, 2025', runtime: '1h 55m',
-    genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 88, momentum: 5,
-    audience: 8.0, critic: 86, voters: 1267, budget: '$200M+', boxOffice: '$521.9M',
-    poster: 'https://image.tmdb.org/t/p/w780/x26MtUlwtWD26d0G0FXcppxCJio.jpg', trailerId: 'pAsmrKyMqaA',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/1G7f4x2Z9w3d0vV8cJ9mJ2yQ2vB.jpg',
-    events: [['JUN 2024','Cast revealed','+4'],['NOV 2024','First look','+5'],['FEB 2025','Trailer released','+7'],['JUL 2025','Early reactions','+3']]
+  'spider-man-brand-new-day': {
+    title: 'Spider-Man: Brand New Day', year: 2026, release: 'July 31, 2026', runtime: '2h 30m',
+    genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 94, momentum: 3,
+    audience: 7.8, critic: 82, voters: 8200, budget: '$225M', boxOffice: '$2.451B',
+    trailerId: 'ESpuGLRifs8',
+    poster: 'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/9JCQtDCSpPR2ld55yNlEg1VwcQo.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w533_and_h300_bestv2/63JYqhefGrbVg0YqZ3xWqn0pwT2.jpg',
+    events: [['JUL 31','Released in theaters','LIVE'],['AUG','Six-week box office run','NOW'],['SEP','Worldwide gross update','NOW']]
   },
-  'dune-part-two': {
-    title: 'Dune: Part Two', year: 2024, release: 'March 1, 2024', runtime: '2h 46m',
-    genre: 'Sci-Fi • Adventure • Drama', rating: 'PG-13', hype: 86, momentum: -2,
-    audience: 8.6, critic: 92, voters: 4210, budget: '$190M', boxOffice: '$714.8M',
-    poster: 'https://image.tmdb.org/t/p/w780/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg', trailerId: 'U2Qp5pL3ovA',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/7q6q3h3w5c5v7v0f5m8n2w2g6qM.jpg',
-    events: [['MAY 2023','First teaser','+5'],['DEC 2023','Trailer released','+8'],['FEB 2024','Early reactions','+4'],['MAR 2024','Audience reviews','-2']]
+  'the-odyssey': {
+    title: 'The Odyssey', year: 2026, release: 'July 17, 2026', runtime: '2h 52m',
+    genre: 'Action • Adventure • Fantasy', rating: 'R', hype: 91, momentum: 2,
+    audience: 8.0, critic: 95, voters: 7600, budget: '$250M', boxOffice: '$1.685B',
+    trailerId: 'vyCVVjA28fo',
+    poster: 'https://dx35vtwkllhj9.cloudfront.net/universalstudios/the-odyssey/images/regions/ca/updates1/onesheet.jpg',
+    backdrop: 'https://dx35vtwkllhj9.cloudfront.net/universalstudios/the-odyssey/images/regions/ca/updates1/onesheet.jpg',
+    events: [['JUL 17','Released in theaters','LIVE'],['SEP 12','Passed $1.677B worldwide','NOW'],['SEP','IMAX screenings continue','NOW']]
   },
-  'deadpool-and-wolverine': {
-    title: 'Deadpool & Wolverine', year: 2024, release: 'July 26, 2024', runtime: '2h 8m',
-    genre: 'Action • Comedy • Marvel', rating: 'R', hype: 89, momentum: 4,
-    audience: 8.3, critic: 78, voters: 3875, budget: '$200M', boxOffice: '$1.338B',
-    poster: 'https://image.tmdb.org/t/p/w780/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg', trailerId: '73_1biulkYk',
-    backdrop: 'https://image.tmdb.org/t/p/w1280/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
-    events: [['FEB 2024','First teaser','+6'],['APR 2024','Trailer released','+7'],['JUN 2024','New clip','+4'],['JUL 2024','Audience reviews','+4']]
+  'coyote-vs-acme': {
+    title: 'Coyote vs. Acme', year: 2026, release: 'August 28, 2026', runtime: '1h 43m',
+    genre: 'Adventure • Comedy • Family', rating: 'PG', hype: 79, momentum: 4,
+    audience: 7.5, critic: 96, voters: 4100, budget: '$70M', boxOffice: '$66.7M',
+    trailerId: 'b76pK6uYQfA',
+    poster: 'https://dx35vtwkllhj9.cloudfront.net/ketchup-entertainment/coyote-vs-acme/images/regions/us/onesheet.jpg',
+    backdrop: 'https://dx35vtwkllhj9.cloudfront.net/ketchup-entertainment/coyote-vs-acme/images/regions/us/onesheet.jpg',
+    events: [['AUG 28','Released in theaters','LIVE'],['SEP','Still playing in theaters','NOW'],['SEP 17','New box office update','NOW']]
   }
 };
 
