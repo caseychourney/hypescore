@@ -402,3 +402,85 @@
 .hypeRankTitle small { display:block; margin-top:5px; color:#737b8c; font-size:10px; font-weight:500; }
 .hypeRankRow strong { min-width:48px; text-align:right; font-size:26px; letter-spacing:-1px; }
 @media(max-width:700px){ .hypeRankRow { grid-template-columns:30px 45px 1fr auto; gap:11px; } .hypeRankRow img { width:45px; height:64px; } .hypeRankTitle { font-size:13px; } .hypeRankRow strong { font-size:21px; } }
+
+
+/* Premium movie detail */
+.movieHero { position:relative; isolation:isolate; overflow:hidden; border-bottom:1px solid var(--line); min-height:560px; background:#090b10; }
+.movieHero::before { content:""; position:absolute; inset:-30px; z-index:-2; background-image:var(--movie-backdrop); background-size:cover; background-position:center; filter:blur(22px) saturate(.72); opacity:.32; transform:scale(1.08); }
+.movieHero::after { content:""; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,#080a0f 0%,rgba(8,10,15,.94) 30%,rgba(8,10,15,.74) 62%,rgba(8,10,15,.95) 100%),linear-gradient(0deg,#080a0f 0%,transparent 55%,#080a0f 100%); }
+.movieHeroInner { max-width:1180px; margin:0 auto; padding:26px 28px 70px; }
+.movieBack { display:inline-flex; color:#8f97a8; font-size:12px; margin-bottom:38px; }
+.movieBack:hover { color:#fff; }
+.movieHeroGrid { display:grid; grid-template-columns:300px minmax(0,760px); gap:54px; align-items:center; }
+.moviePosterFrame { position:relative; width:300px; aspect-ratio:2/3; border-radius:14px; overflow:hidden; background:linear-gradient(145deg,#1a1e28,#0d1017); box-shadow:0 30px 80px rgba(0,0,0,.5); border:1px solid rgba(255,255,255,.1); }
+.movieHeroPoster { width:100%; height:100%; display:block; object-fit:cover; }
+.posterBadge { position:absolute; left:14px; bottom:14px; padding:8px 11px; border-radius:8px; background:rgba(7,9,13,.9); border:1px solid rgba(255,255,255,.12); font-size:24px; font-weight:850; letter-spacing:-1px; backdrop-filter:blur(10px); }
+.posterBadge span { margin-left:4px; font-size:8px; letter-spacing:1.2px; color:#aeb5c3; vertical-align:middle; }
+.movieHeroCopy { min-width:0; }
+.movieHeroCopy h1 { margin:0; max-width:760px; font-size:clamp(48px,6vw,78px); line-height:.94; letter-spacing:-4px; }
+.movieTagline { margin:15px 0 0; color:#c5cad4; font-size:17px; line-height:1.5; }
+.movieMetaLine { display:flex; flex-wrap:wrap; gap:9px; align-items:center; margin:18px 0 30px; color:#929aaa; font-size:12px; }
+.movieMetaLine i { color:#515867; font-style:normal; }
+.movieHeroScores { display:grid; grid-template-columns:1.35fr 1fr 1fr; border-top:1px solid rgba(255,255,255,.12); border-bottom:1px solid rgba(255,255,255,.12); }
+.movieHeroScores > div { padding:18px 18px 17px 0; }
+.movieHeroScores > div + div { border-left:1px solid rgba(255,255,255,.1); padding-left:18px; }
+.movieHeroScores span,.movieHeroScores small { display:block; color:#7f8797; font-size:9px; text-transform:uppercase; letter-spacing:1.3px; }
+.movieHeroScores strong { display:block; margin:5px 0 3px; font-size:30px; letter-spacing:-1.3px; }
+.movieHeroScores small { text-transform:none; letter-spacing:0; font-size:11px; }
+.movieHeroScores .heroHype strong { color:var(--accent); font-size:52px; letter-spacing:-3px; }
+.movieHeroActions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+.ghostButton { border:1px solid var(--line); background:rgba(255,255,255,.03); color:#cbd1dc; border-radius:8px; padding:10px 14px; font-size:12px; cursor:pointer; }
+.ghostButton:hover { background:rgba(255,255,255,.07); color:#fff; }
+.movieBody { max-width:1080px; margin:0 auto; padding:0 28px 80px; }
+.movieIntro { display:grid; grid-template-columns:300px 1fr; gap:70px; padding:54px 0 40px; border-bottom:1px solid var(--line); }
+.movieIntro h2 { margin:0; font-size:30px; letter-spacing:-1.4px; }
+.movieIntro > p { margin:0; color:#aab1bf; font-size:15px; line-height:1.8; max-width:720px; }
+.movieScoreCards { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; padding:28px 0 10px; }
+.movieScoreCards article { min-height:120px; padding:20px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.018); }
+.movieScoreCards span { display:block; color:#747d8e; font-size:9px; font-weight:800; letter-spacing:1.3px; }
+.movieScoreCards strong { display:block; margin:9px 0 3px; font-size:30px; letter-spacing:-1.2px; }
+.movieScoreCards article:first-child strong { color:var(--accent); }
+.movieScoreCards small { color:#747d8e; font-size:10px; line-height:1.4; }
+.deliveredPanel { display:grid; grid-template-columns:1fr 1.1fr auto; gap:28px; align-items:center; margin-top:36px; padding:28px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(135deg,#141721,#0e1016); }
+.deliveredPanel h2 { margin:0; font-size:28px; letter-spacing:-1.2px; }
+.deliveredMain { display:flex; align-items:baseline; gap:10px; }
+.deliveredMain strong { font-size:48px; letter-spacing:-2px; }
+.deliveredMain span { color:#8a92a2; font-size:12px; }
+.deliveredPanel > small { max-width:260px; color:#737b8b; font-size:10px; line-height:1.6; }
+
+@media(max-width:900px){
+  .movieHeroGrid { grid-template-columns:210px 1fr; gap:30px; }
+  .moviePosterFrame { width:210px; }
+  .movieIntro { grid-template-columns:1fr; gap:16px; }
+  .movieScoreCards { grid-template-columns:1fr 1fr; }
+  .deliveredPanel { grid-template-columns:1fr; gap:12px; }
+}
+@media(max-width:700px){
+  .movieHero { min-height:0; }
+  .movieHeroInner { padding:20px 16px 48px; }
+  .movieBack { margin-bottom:22px; }
+  .movieHeroGrid { grid-template-columns:105px 1fr; gap:18px; align-items:start; }
+  .moviePosterFrame { width:105px; border-radius:8px; }
+  .posterBadge { left:6px; bottom:6px; padding:5px 6px; font-size:14px; }
+  .posterBadge span { font-size:6px; }
+  .movieHeroCopy h1 { font-size:31px; letter-spacing:-1.7px; }
+  .movieTagline { font-size:12px; margin-top:8px; }
+  .movieMetaLine { gap:5px; font-size:9px; margin:9px 0 14px; }
+  .movieHeroScores { grid-template-columns:1fr 1fr; }
+  .movieHeroScores > div { padding:10px 8px 10px 0; }
+  .movieHeroScores > div + div { padding-left:8px; }
+  .movieHeroScores > div:last-child { grid-column:1/-1; border-left:0; border-top:1px solid rgba(255,255,255,.1); }
+  .movieHeroScores strong { font-size:22px; }
+  .movieHeroScores .heroHype strong { font-size:34px; }
+  .movieHeroScores small { font-size:9px; }
+  .movieHeroActions { grid-column:1/-1; margin-top:4px; }
+  .movieBody { padding:0 16px 55px; }
+  .movieIntro { padding:36px 0 30px; }
+  .movieIntro h2 { font-size:25px; }
+  .movieIntro > p { font-size:13px; }
+  .movieScoreCards { grid-template-columns:1fr 1fr; gap:8px; }
+  .movieScoreCards article { min-height:105px; padding:15px; }
+  .movieScoreCards strong { font-size:24px; }
+  .deliveredPanel { padding:20px; }
+  .deliveredMain strong { font-size:38px; }
+}
