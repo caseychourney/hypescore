@@ -38,7 +38,12 @@ export async function getStaticProps({params}) {
     }
     const hype = movie.releaseSnapshot?.score ?? movie.snapshots?.[0]?.score ?? 0;
     return { props:{ movie:JSON.parse(JSON.stringify({...movie, hype})) }, revalidate:300 };
-  } catch (error) { console.error('Movie page lookup failed',error); return { notFound:true }; }
+  } catch (error) {
+    console.error('Movie page lookup failed', error);
+    const fallbackMovie = getFallbackMovie(params.slug);
+    if (!fallbackMovie) return { notFound: true };
+    return { props: { movie: JSON.parse(JSON.stringify(fallbackMovie)) }, revalidate: 300 };
+  }
 }
 
 export default function MoviePage({movie:rawMovie}) {
