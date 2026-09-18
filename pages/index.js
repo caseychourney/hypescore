@@ -25,7 +25,7 @@ const movies = [
     hype: 88,
     change: 5,
     reviews: 1267,
-    poster: 'https://image.tmdb.org/t/p/w780/8xV47NDrjdZD7rbcBR6z0mR4om9.jpg',
+    poster: 'https://image.tmdb.org/t/p/w780/x26MtUlwtWD26d0G0FXcppxCJio.jpg',
     tagline: 'Prepare for a new beginning.',
     event: 'Casting announcement',
     eventAge: '5 days ago',
