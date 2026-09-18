@@ -2,25 +2,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import { getHomeSections } from '../lib/movieCatalog';
+import { fallbackMovies } from '../lib/fallbackMovies';
 
 const fallback = {
-  mostHyped: [
-    { slug:'spider-man-brand-new-day', title:'Spider-Man: Brand New Day', releaseDate:'2026-07-31', posterUrl:'https://media.themoviedb.org/t/p/w300_and_h450_bestv2/9JCQtDCSpPR2ld55yNlEg1VwcQo.jpg', hype:94 },
-    { slug:'the-odyssey', title:'The Odyssey', releaseDate:'2026-07-17', posterUrl:'https://dx35vtwkllhj9.cloudfront.net/universalstudios/the-odyssey/images/regions/ca/updates1/onesheet.jpg', hype:91 },
-    { slug:'dune-part-three', title:'Dune: Part Three', releaseDate:'2026-12-18', posterUrl:'https://dx35vtwkllhj9.cloudfront.net/warnerbros/dune-part-three/images/regions/us/onesheet.jpg', hype:93 },
-    { slug:'practical-magic-2', title:'Practical Magic 2', releaseDate:'2026-09-11', posterUrl:'https://www.practicalmagicmovie.com/assets/images/mobilebanner.jpg', hype:87 }
-  ],
-  openingThisWeek: [
-    { slug:'resident-evil', title:'Resident Evil', releaseDate:'2026-09-18', posterUrl:'https://www.impawards.com/2026/posters/resident_evil.jpg', hype:88 },
-    { slug:'shaun-the-sheep-beast-of-mossy-bottom', title:'Shaun the Sheep: The Beast of Mossy Bottom', releaseDate:'2026-09-18', posterUrl:'https://www.impawards.com/intl/uk/2026/posters/shaun_the_sheep_the_beast_of_mossy_bottom.jpg', hype:82 },
-    { slug:'the-weight', title:'The Weight', releaseDate:'2026-09-18', posterUrl:'https://www.impawards.com/2026/posters/the_weight.jpg', hype:76 },
-    { slug:'practical-magic-2', title:'Practical Magic 2', releaseDate:'2026-09-11', posterUrl:'https://www.practicalmagicmovie.com/assets/images/mobilebanner.jpg', hype:87 }
-  ],
-  comingSoon: [
-    { slug:'heart-of-the-beast', title:'Heart of the Beast', releaseDate:'2026-09-25', posterUrl:'https://www.impawards.com/2026/posters/heart_of_the_beast.jpg', hype:80 },
-    { slug:'primetime', title:'Primetime', releaseDate:'2026-09-25', posterUrl:'https://www.impawards.com/2026/posters/primetime.jpg', hype:71 },
-    { slug:'dune-part-three', title:'Dune: Part Three', releaseDate:'2026-12-18', posterUrl:'https://dx35vtwkllhj9.cloudfront.net/warnerbros/dune-part-three/images/regions/us/onesheet.jpg', hype:93 }
-  ]
+  mostHyped: fallbackMovies,
+  openingThisWeek: fallbackMovies.filter(movie => ['spider-man-brand-new-day','the-odyssey','practical-magic-2'].includes(movie.slug)),
+  comingSoon: fallbackMovies.filter(movie => ['dune-part-three'].includes(movie.slug))
 };
 
 function formatDate(value) { return value ? new Intl.DateTimeFormat('en-US', { month:'short', day:'numeric' }).format(new Date(value)) : ''; }
