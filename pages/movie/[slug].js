@@ -36,8 +36,26 @@ export async function getStaticProps({params}) {
       if (!fallbackMovie) return { notFound:true };
       return { props:{ movie:JSON.parse(JSON.stringify(fallbackMovie)) }, revalidate:300 };
     }
-    const hype = movie.releaseSnapshot?.score ?? movie.snapshots?.[0]?.score ?? 0;
-    return { props:{ movie:JSON.parse(JSON.stringify({...movie, hype})) }, revalidate:300 };
+    const fallbackMovie = getFallbackMovie(params.slug);
+    const mergedMovie = fallbackMovie ? {
+      ...fallbackMovie,
+      ...movie,
+      posterUrl: movie.posterUrl || fallbackMovie.posterUrl,
+      backdropUrl: movie.backdropUrl || fallbackMovie.backdropUrl,
+      overview: movie.overview || fallbackMovie.overview,
+      tagline: movie.tagline || fallbackMovie.tagline,
+      genres: Array.isArray(movie.genres) && movie.genres.length ? movie.genres : fallbackMovie.genres,
+      runtimeMinutes: movie.runtimeMinutes || fallbackMovie.runtimeMinutes,
+      certification: movie.certification || fallbackMovie.certification,
+      originalLanguage: movie.originalLanguage || fallbackMovie.originalLanguage,
+      productionCompanies: movie.productionCompanies || fallbackMovie.productionCompanies,
+      trailerUrl: movie.trailerUrl || fallbackMovie.trailerUrl,
+      hype: movie.releaseSnapshot?.score ?? movie.snapshots?.[0]?.score ?? fallbackMovie.hype ?? 0
+    } : {
+      ...movie,
+      hype: movie.releaseSnapshot?.score ?? movie.snapshots?.[0]?.score ?? 0
+    };
+    return { props:{ movie:JSON.parse(JSON.stringify(mergedMovie)) }, revalidate:300 };
   } catch (error) {
     console.error('Movie page lookup failed', error);
     const fallbackMovie = getFallbackMovie(params.slug);
