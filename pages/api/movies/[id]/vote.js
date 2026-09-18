@@ -20,6 +20,8 @@ export default async function handler(req, res) {
     if (!movie) return res.status(404).json({ error: 'Movie not found' });
     if (movie.status !== 'UPCOMING') return res.status(409).json({ error: 'This movie is no longer in the pre-release Hype pool' });
 
+    await prisma.user.upsert({ where:{id:userId}, update:{}, create:{id:userId} });
+
     const existing = await prisma.hypeVote.findUnique({ where: { userId_movieId: { userId, movieId: movie.id } } });
     const now = new Date();
     const normalizedChoice = choice.toUpperCase();
