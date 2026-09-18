@@ -123,16 +123,17 @@ export default function Home() {
             <p className={styles.eyebrow}>THE MOVIE HYPE METER</p>
             <h1>Is it worth<br /><span>the hype?</span></h1>
             <p className={styles.heroText}>
-              Track the buzz before release. Rate what you watched. Then find out whether the movie actually delivered.
+              The complete movie destination — hype, critics, audience ratings, box office, cast, reviews and tickets. Track the buzz before release, then see whether the movie actually delivered.
             </p>
             <div className={styles.heroActions}>
               <a className={styles.primaryButton} href="#discover">Explore movies <span>→</span></a>
               <a className={styles.secondaryButton} href="#quick-review">Rate a movie</a>
             </div>
             <div className={styles.heroStats}>
-              <div><strong>10</strong><span>rating scale</span></div>
-              <div><strong>7</strong><span>quick categories</span></div>
-              <div><strong>∞</strong><span>hype moments</span></div>
+              <div><strong>🔥</strong><span>Hype</span></div>
+              <div><strong>🎬</strong><span>Critics</span></div>
+              <div><strong>🍿</strong><span>Audience</span></div>
+              <div><strong>🎟️</strong><span>Tickets</span></div>
             </div>
           </div>
 
@@ -197,6 +198,16 @@ export default function Home() {
               <div className={styles.timelineItem}><b>04</b><span>You watch it</span><strong>?</strong></div>
             </div>
           </div>
+        </section>
+
+        <section className={styles.scoreStrip}>
+          <div><p className={styles.eyebrow}>ONE MOVIE. EVERY ANGLE.</p><h2>Everything you need to decide.</h2><div className={styles.scoreStripGrid}>
+            <article><span>🔥</span><strong>HypeScore</strong><p>What audiences want to see before they watch.</p></article>
+            <article><span>🎬</span><strong>Critic Average</strong><p>Professional review scores, kept separate from hype.</p></article>
+            <article><span>🍿</span><strong>Audience</strong><p>What people who actually watched it thought.</p></article>
+            <article><span>💰</span><strong>Box Office</strong><p>Opening weekend, domestic and worldwide performance.</p></article>
+            <article><span>🎟️</span><strong>Tickets</strong><p>Find showtimes and continue to Fandango.</p></article>
+          </div></div>
         </section>
 
         <section className={styles.section} id="quick-review">
@@ -271,10 +282,10 @@ export default function Home() {
             </div>
           </div>
           <div className={styles.featureGrid}>
-            <article><span>◉</span><h3>Critics + audience</h3><p>See professional reviews alongside the people actually watching the movie.</p></article>
-            <article><span>⌁</span><h3>Hype timeline</h3><p>Follow the moments that move a movie's score up, down, or sideways.</p></article>
-            <article><span>✦</span><h3>Nerd stats</h3><p>Runtime, format, IMAX, Dolby Atmos, after-credit scenes and more.</p></article>
-            <article><span>▣</span><h3>My Hype</h3><p>Keep your watchlist, predictions and post-movie reactions in one place.</p></article>
+            <article><span>◉</span><h3>Critics + audience</h3><p>Professional review average, audience score and HypeScore — three different questions, one movie page.</p></article>
+            <article><span>⌁</span><h3>Hype timeline</h3><p>Follow the moments that move a movie's anticipation up, down, or sideways.</p></article>
+            <article><span>✦</span><h3>Movie intelligence</h3><p>Cast, crew, runtime, format, budget, box office, trivia and where to watch.</p></article>
+            <article><span>🎟️</span><h3>Tickets</h3><p>From discovery to showtime. Connect the decision to the ticket purchase.</p></article>
           </div>
         </section>
       </main>
