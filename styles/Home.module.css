@@ -592,3 +592,45 @@
   .trailerHeader { min-height:60px; padding:12px; }
   .trailerHeader h2 { font-size:16px; }
 }
+
+
+/* Movie page experience pass */
+.hypeExplainer {
+  display:grid;
+  grid-template-columns:1fr 1.35fr;
+  gap:46px;
+  padding:34px 0;
+  border-bottom:1px solid var(--line);
+}
+.hypeExplainerLead h2 { margin:4px 0 10px; font-size:25px; letter-spacing:-1.1px; }
+.hypeExplainerLead > p:last-child { margin:0; max-width:430px; color:#858d9d; font-size:12px; line-height:1.7; }
+.hypeSteps { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.hypeSteps div { padding:15px; border:1px solid var(--line); border-radius:10px; background:rgba(255,255,255,.018); }
+.hypeSteps b { display:block; color:var(--accent); font-size:9px; letter-spacing:1px; }
+.hypeSteps strong { display:block; margin-top:12px; font-size:12px; }
+.hypeSteps span { display:block; margin-top:5px; color:#737b8b; font-size:10px; line-height:1.45; }
+
+.castPhotoWrap {
+  width:100%;
+  aspect-ratio:1/1;
+  margin-bottom:11px;
+  overflow:hidden;
+  border-radius:8px;
+  background:#151922;
+  display:grid;
+  place-items:center;
+  color:#60697a;
+  font-size:22px;
+  font-weight:800;
+}
+.castPhotoWrap img { width:100%; height:100%; object-fit:cover; display:block; }
+.castCard { transition:background .18s ease,transform .18s ease; }
+.castCard:hover { transform:translateY(-2px); }
+@media(max-width:900px){
+  .hypeExplainer { grid-template-columns:1fr; gap:22px; }
+}
+@media(max-width:700px){
+  .hypeSteps { grid-template-columns:1fr; }
+  .hypeExplainer { padding:28px 0; }
+  .castPhotoWrap { margin-bottom:8px; }
+}
