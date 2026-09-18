@@ -7,7 +7,7 @@ const movieData = {
   'superman': {
     title: 'Superman', year: 2025, release: 'July 11, 2025', runtime: '2h 9m',
     genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 92, momentum: 8,
-    audience: 8.7, critic: 91, voters: 1842,
+    audience: 8.7, critic: 91, voters: 1842, budget: '$225M', boxOffice: '$618.7M',
     poster: 'https://image.tmdb.org/t/p/w780/ombsmhYUqR4qqOLOxAyr5V8hbyv.jpg',
     backdrop: 'https://image.tmdb.org/t/p/w1280/9whEVuKte4Qi0LI4TzG7hH4wR7G.jpg',
     events: [['JUL 2024','Casting revealed','+4'],['FEB 2025','First teaser','+6'],['MAR 2025','Trailer released','+8'],['JUN 2025','Early reactions','-2']]
@@ -15,7 +15,7 @@ const movieData = {
   'fantastic-four-first-steps': {
     title: 'The Fantastic Four: First Steps', year: 2025, release: 'July 25, 2025', runtime: '1h 55m',
     genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 88, momentum: 5,
-    audience: 8.0, critic: 86, voters: 1267,
+    audience: 8.0, critic: 86, voters: 1267, budget: '$200M+', boxOffice: '$521.9M',
     poster: 'https://image.tmdb.org/t/p/w780/x26MtUlwtWD26d0G0FXcppxCJio.jpg',
     backdrop: 'https://image.tmdb.org/t/p/w1280/1G7f4x2Z9w3d0vV8cJ9mJ2yQ2vB.jpg',
     events: [['JUN 2024','Cast revealed','+4'],['NOV 2024','First look','+5'],['FEB 2025','Trailer released','+7'],['JUL 2025','Early reactions','+3']]
@@ -23,7 +23,7 @@ const movieData = {
   'dune-part-two': {
     title: 'Dune: Part Two', year: 2024, release: 'March 1, 2024', runtime: '2h 46m',
     genre: 'Sci-Fi • Adventure • Drama', rating: 'PG-13', hype: 86, momentum: -2,
-    audience: 8.6, critic: 92, voters: 4210,
+    audience: 8.6, critic: 92, voters: 4210, budget: '$190M', boxOffice: '$714.8M',
     poster: 'https://image.tmdb.org/t/p/w780/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
     backdrop: 'https://image.tmdb.org/t/p/w1280/7q6q3h3w5c5v7v0f5m8n2w2g6qM.jpg',
     events: [['MAY 2023','First teaser','+5'],['DEC 2023','Trailer released','+8'],['FEB 2024','Early reactions','+4'],['MAR 2024','Audience reviews','-2']]
@@ -31,7 +31,7 @@ const movieData = {
   'deadpool-and-wolverine': {
     title: 'Deadpool & Wolverine', year: 2024, release: 'July 26, 2024', runtime: '2h 8m',
     genre: 'Action • Comedy • Marvel', rating: 'R', hype: 89, momentum: 4,
-    audience: 8.3, critic: 78, voters: 3875,
+    audience: 8.3, critic: 78, voters: 3875, budget: '$200M', boxOffice: '$1.338B',
     poster: 'https://image.tmdb.org/t/p/w780/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
     backdrop: 'https://image.tmdb.org/t/p/w1280/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
     events: [['FEB 2024','First teaser','+6'],['APR 2024','Trailer released','+7'],['JUN 2024','New clip','+4'],['JUL 2024','Audience reviews','+4']]
@@ -140,7 +140,7 @@ export default function MoviePage({ movie }) {
 
         <section className={styles.detailSection}>
           <div className={styles.detailTitle}><p className={styles.eyebrow}>NERD STATS</p><h2>The stuff movie people ask about.</h2></div>
-          <div className={styles.nerdGrid}><div><span>Runtime</span><strong>{movie.runtime}</strong></div><div><span>Rating</span><strong>{movie.rating}</strong></div><div><span>Release</span><strong>{movie.release}</strong></div><div><span>Format</span><strong>IMAX / 2D</strong></div><div><span>Sound</span><strong>Dolby Atmos</strong></div><div><span>After credits</span><strong>2 scenes</strong></div></div>
+          <div className={styles.nerdGrid}><div><span>Runtime</span><strong>{movie.runtime}</strong></div><div><span>Rating</span><strong>{movie.rating}</strong></div><div><span>Release</span><strong>{movie.release}</strong></div><div><span>Budget</span><strong>{movie.budget}</strong></div><div><span>Box office</span><strong>{movie.boxOffice}</strong></div><div><span>Format</span><strong>IMAX / 2D</strong></div><div><span>Sound</span><strong>Dolby Atmos</strong></div><div><span>After credits</span><strong>2 scenes</strong></div></div>
         </section>
 
         <section className={styles.detailSection}>
