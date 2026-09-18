@@ -3,7 +3,7 @@ generator client {
 }
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("database_DATABASE_URL")
 }
 enum MovieStatus {
   UPCOMING
@@ -109,7 +109,7 @@ model HypeSnapshot {
   @@index([movieId, capturedAt])
 }
 model HypeReleaseSnapshot {
-  id String @id @default(cuid())
+  id String @id
   movieId String @unique
   releaseAt DateTime
   score Int
