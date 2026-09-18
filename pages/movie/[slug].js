@@ -166,7 +166,7 @@ export default function MoviePage({ movie:rawMovie }) {
     setHypeSaving(true);
     setHypeMessage('');
     try {
-      const response = await fetch('/api/movies/' + rawMovie.id + '/vote', {
+      const response = await fetch('/api/movies/' + (rawMovie.id || rawMovie.slug) + '/vote', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({ choice:choice.toLowerCase(), userId:getUserId() })
@@ -379,7 +379,7 @@ export default function MoviePage({ movie:rawMovie }) {
               </div>
             ) : (
               <div className={styles.writeReview}><textarea value={reviewBody} onChange={e=>setReviewBody(e.target.value)} placeholder="What did you think? Tell other movie people what worked, what didn't, and whether it lived up to the hype."/><div><button className={styles.primaryButton} onClick={async () => {
-                  const response = await fetch('/api/movies/' + rawMovie.id + '/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...scores,musicSound:scores.Music,entertainment:scores.Entertainment,overall:Number(overall),body:reviewBody,userId:getUserId()})});
+                  const response = await fetch('/api/movies/' + (rawMovie.id || rawMovie.slug) + '/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({writing:scores.Writing,acting:scores.Acting,story:scores.Story,characters:scores.Characters,visuals:scores.Visuals,musicSound:scores.Music,entertainment:scores.Entertainment,overall:Number(overall),body:reviewBody,userId:getUserId()})});
                   const data = await response.json();
                   setSaved(response.ok);
                   setHypeMessage(response.ok ? 'Review submitted for moderation.' : (data.error || 'Unable to save review.'));
