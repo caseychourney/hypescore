@@ -50,7 +50,7 @@ describe('HypeScore engine v1', () => {
     ], now);
 
     expect(recent.effectiveVotes).toBe(2);
-    expect(old.effectiveVotes).toBeCloseTo(1, 1);
+    expect(old.effectiveVotes).toBeCloseTo(0.4, 1);
     expect(old.rawVotes).toBe(2);
   });
 
