@@ -634,3 +634,21 @@
   .hypeExplainer { padding:28px 0; }
   .castPhotoWrap { margin-bottom:8px; }
 }
+
+
+.hypeHistory { padding:34px 0; border-bottom:1px solid var(--line); }
+.hypeHistoryHead { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:20px; }
+.hypeHistoryHead h2 { margin:4px 0 0; font-size:24px; letter-spacing:-1px; }
+.hypeHistoryHead > span { color:#697181; font-size:10px; text-transform:uppercase; letter-spacing:1px; }
+.hypeBars { height:150px; display:flex; align-items:end; gap:5px; padding-top:15px; border-bottom:1px solid var(--line); }
+.hypeBarCol { height:100%; flex:1; min-width:4px; display:flex; align-items:end; }
+.hypeBar { width:100%; min-height:8px; position:relative; border-radius:4px 4px 0 0; background:linear-gradient(180deg,var(--accent),rgba(255,77,109,.28)); opacity:.82; transition:opacity .2s ease; }
+.hypeBar:hover { opacity:1; }
+.hypeBar b { position:absolute; left:50%; top:-17px; transform:translateX(-50%); color:#8991a1; font-size:8px; font-weight:700; opacity:0; transition:opacity .2s ease; }
+.hypeBar:hover b { opacity:1; }
+@media(max-width:700px){
+  .hypeHistory { padding:28px 0; }
+  .hypeHistoryHead h2 { font-size:20px; }
+  .hypeBars { height:115px; gap:3px; }
+  .hypeBar b { display:none; }
+}
