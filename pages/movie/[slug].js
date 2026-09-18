@@ -3,32 +3,53 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import styles from '../../styles/Home.module.css';
 
-const movie = {
-  title: 'Superman',
-  year: 2025,
-  release: 'July 11, 2025',
-  runtime: '2h 9m',
-  genre: 'Action • Adventure • Sci-Fi',
-  rating: 'PG-13',
-  hype: 92,
-  momentum: 8,
-  audience: 8.7,
-  critic: 91,
-  voters: 1842,
-  poster: 'https://image.tmdb.org/t/p/w780/ombsmhYUqR4qqOLOxAyr5V8hbyv.jpg',
-  backdrop: 'https://image.tmdb.org/t/p/w1280/9whEVuKte4Qi0LI4TzG7hH4wR7G.jpg',
+const movieData = {
+  'superman': {
+    title: 'Superman', year: 2025, release: 'July 11, 2025', runtime: '2h 9m',
+    genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 92, momentum: 8,
+    audience: 8.7, critic: 91, voters: 1842,
+    poster: 'https://image.tmdb.org/t/p/w780/ombsmhYUqR4qqOLOxAyr5V8hbyv.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/9whEVuKte4Qi0LI4TzG7hH4wR7G.jpg',
+    events: [['JUL 2024','Casting revealed','+4'],['FEB 2025','First teaser','+6'],['MAR 2025','Trailer released','+8'],['JUN 2025','Early reactions','-2']]
+  },
+  'fantastic-four-first-steps': {
+    title: 'The Fantastic Four: First Steps', year: 2025, release: 'July 25, 2025', runtime: '1h 55m',
+    genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 88, momentum: 5,
+    audience: 8.0, critic: 86, voters: 1267,
+    poster: 'https://image.tmdb.org/t/p/w780/x26MtUlwtWD26d0G0FXcppxCJio.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/1G7f4x2Z9w3d0vV8cJ9mJ2yQ2vB.jpg',
+    events: [['JUN 2024','Cast revealed','+4'],['NOV 2024','First look','+5'],['FEB 2025','Trailer released','+7'],['JUL 2025','Early reactions','+3']]
+  },
+  'dune-part-two': {
+    title: 'Dune: Part Two', year: 2024, release: 'March 1, 2024', runtime: '2h 46m',
+    genre: 'Sci-Fi • Adventure • Drama', rating: 'PG-13', hype: 86, momentum: -2,
+    audience: 8.6, critic: 92, voters: 4210,
+    poster: 'https://image.tmdb.org/t/p/w780/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/7q6q3h3w5c5v7v0f5m8n2w2g6qM.jpg',
+    events: [['MAY 2023','First teaser','+5'],['DEC 2023','Trailer released','+8'],['FEB 2024','Early reactions','+4'],['MAR 2024','Audience reviews','-2']]
+  },
+  'deadpool-and-wolverine': {
+    title: 'Deadpool & Wolverine', year: 2024, release: 'July 26, 2024', runtime: '2h 8m',
+    genre: 'Action • Comedy • Marvel', rating: 'R', hype: 89, momentum: 4,
+    audience: 8.3, critic: 78, voters: 3875,
+    poster: 'https://image.tmdb.org/t/p/w780/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
+    events: [['FEB 2024','First teaser','+6'],['APR 2024','Trailer released','+7'],['JUN 2024','New clip','+4'],['JUL 2024','Audience reviews','+4']]
+  }
 };
 
-const events = [
-  ['JUL 2024', 'Casting revealed', '+4'],
-  ['FEB 2025', 'First teaser', '+6'],
-  ['MAR 2025', 'Trailer released', '+8'],
-  ['JUN 2025', 'Early reactions', '-2'],
-];
+export async function getStaticPaths() {
+  return { paths: Object.keys(movieData).map((slug) => ({ params: { slug } })), fallback: false };
+}
+
+export async function getStaticProps({ params }) {
+  return { props: { movie: movieData[params.slug], slug: params.slug } };
+}
 
 const categories = ['Writing', 'Acting', 'Story', 'Characters', 'Visuals', 'Music', 'Entertainment'];
 
-export default function MoviePage() {
+export default function MoviePage({ movie }) {
+  const events = movie.events;
   const [scores, setScores] = useState(Object.fromEntries(categories.map((c) => [c, 8])));
   const [spoiler, setSpoiler] = useState(false);
   const [saved, setSaved] = useState(false);

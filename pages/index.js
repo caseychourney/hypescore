@@ -6,6 +6,7 @@ import styles from '../styles/Home.module.css';
 const movies = [
   {
     id: 1,
+    slug: 'superman',
     title: 'Superman',
     year: 2025,
     genre: 'Action • Adventure • Sci-Fi',
@@ -19,6 +20,7 @@ const movies = [
   },
   {
     id: 2,
+    slug: 'fantastic-four-first-steps',
     title: 'The Fantastic Four: First Steps',
     year: 2025,
     genre: 'Action • Adventure • Sci-Fi',
@@ -32,6 +34,7 @@ const movies = [
   },
   {
     id: 3,
+    slug: 'dune-part-two',
     title: 'Dune: Part Two',
     year: 2024,
     genre: 'Sci-Fi • Adventure • Drama',
@@ -45,6 +48,7 @@ const movies = [
   },
   {
     id: 4,
+    slug: 'deadpool-and-wolverine',
     title: 'Deadpool & Wolverine',
     year: 2024,
     genre: 'Action • Comedy • Marvel',
@@ -154,11 +158,11 @@ export default function Home() {
 
           <div className={styles.movieGrid}>
             {movies.map((movie) => (
-              <button
+              <Link
                 key={movie.id}
+                href={'/movie/' + movie.slug}
                 className={styles.movieCard}
-                onClick={() => setSelectedMovie(movie)}
-                aria-label={'Select ' + movie.title}
+                aria-label={'Open ' + movie.title + ' movie page'}
               >
                 <div className={styles.moviePosterWrap}>
                   <img src={movie.poster} alt="" className={styles.moviePoster} />
