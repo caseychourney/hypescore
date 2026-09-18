@@ -5,9 +5,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-enum MovieStatus {\n  UPCOMING\n  RELEASED\n  STREAMING\n}
-enum HypeChoice {\n  YES\n  MAYBE\n  NO\n}
-enum ModerationState {\n  PENDING\n  APPROVED\n  REJECTED\n}
+enum MovieStatus {
+  UPCOMING
+  RELEASED
+  STREAMING
+}
+enum HypeChoice {
+  YES
+  MAYBE
+  NO
+}
+enum ModerationState {
+  PENDING
+  APPROVED
+  REJECTED
+}
 model User {
   id String @id @default(cuid())
   createdAt DateTime @default(now())
