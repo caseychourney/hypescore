@@ -142,6 +142,7 @@ export default function MoviePage({ movie:rawMovie }) {
   const [hypeChoice,setHypeChoice] = useState('');
   const [hypeSaving,setHypeSaving] = useState(false);
   const [hypeMessage,setHypeMessage] = useState('');
+  const [reviewBody,setReviewBody] = useState('');
 
   const overall = useMemo(() => {
     const values = Object.values(scores);
@@ -154,6 +155,13 @@ export default function MoviePage({ movie:rawMovie }) {
   const cast = movie.cast.filter(c => c.person?.slug).slice(0,18);
   const directors = movie.crew.filter(c => c.person?.slug && String(c.job || '').toLowerCase().includes('director')).slice(0,4);
 
+  function getUserId() {
+    if (typeof window === 'undefined') return '';
+    let id = window.localStorage.getItem('hypescore_guest_id');
+    if (!id) { id = 'guest_' + Math.random().toString(36).slice(2) + Date.now().toString(36); window.localStorage.setItem('hypescore_guest_id', id); }
+    return id;
+  }
+
   async function voteHype(choice) {
     setHypeSaving(true);
     setHypeMessage('');
@@ -161,12 +169,12 @@ export default function MoviePage({ movie:rawMovie }) {
       const response = await fetch('/api/movies/' + rawMovie.id + '/vote', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({ choice })
+        body:JSON.stringify({ choice:choice.toLowerCase(), userId:getUserId() })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Unable to save');
       setHypeChoice(choice);
-      setHypeMessage('Your Hype is saved.');
+      setHypeMessage(data.hype ? 'Your Hype is saved. HypeScore is now ' + data.hype + '.' : 'Your Hype is saved.');
     } catch (error) {
       setHypeMessage(error.message);
     } finally {
@@ -370,7 +378,12 @@ export default function MoviePage({ movie:rawMovie }) {
                 <button className={styles.primaryButton} onClick={() => setSaved(true)}>{saved ? 'Review saved ✓' : 'Save Quick Review'}</button>
               </div>
             ) : (
-              <div className={styles.writeReview}><textarea placeholder="What did you think? Tell other movie people what worked, what didn't, and whether it lived up to the hype."/><div><button className={styles.primaryButton} onClick={() => setSaved(true)}>{saved ? 'Review saved ✓' : 'Post Review'}</button></div></div>
+              <div className={styles.writeReview}><textarea value={reviewBody} onChange={e=>setReviewBody(e.target.value)} placeholder="What did you think? Tell other movie people what worked, what didn't, and whether it lived up to the hype."/><div><button className={styles.primaryButton} onClick={async () => {
+                  const response = await fetch('/api/movies/' + rawMovie.id + '/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...scores,musicSound:scores.Music,entertainment:scores.Entertainment,overall:Number(overall),body:reviewBody,userId:getUserId()})});
+                  const data = await response.json();
+                  setSaved(response.ok);
+                  setHypeMessage(response.ok ? 'Review submitted for moderation.' : (data.error || 'Unable to save review.'));
+                }}>{saved ? 'Review submitted ✓' : 'Post Review'}</button></div></div>
             )}
           </section>
 
@@ -439,6 +452,14 @@ export default function MoviePage({ movie:rawMovie }) {
                 <div><span>Production Companies</span><strong>{Array.isArray(rawMovie.productionCompanies) ? rawMovie.productionCompanies.map(x => x.name || x).join(', ') : '—'}</strong></div>
               </div>
             )}
+          </section>
+
+          <section className={styles.shareSection}>
+            <div className={styles.shareCard}>
+              <div className={styles.sharePoster}><img src={posterSrc} alt="" /></div>
+              <div className={styles.shareMain}><span>HYPESCORE CARD</span><h2>{movie.title} <b className={styles.shareScore}>{movie.hype || '—'}</b></h2><p>Audience anticipation before the movie is watched.</p></div>
+              <button className={styles.shareButton} onClick={async()=>{try{await navigator.clipboard.writeText(window.location.href);setHypeMessage('Movie link copied.');}catch{setHypeMessage('Copy the page URL to share this HypeScore.');}}}>Share Hype ↗</button>
+            </div>
           </section>
 
           <section className={styles.deliveredPanel} id="hype-test">
