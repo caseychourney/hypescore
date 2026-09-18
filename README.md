@@ -48,7 +48,7 @@ Do not launch the publisher/viral distribution layer before the score has passed
 
 ## Real movie catalog
 
-HypeScore now has a server-side TMDB importer and a database-backed homepage. TMDB's API supports movie search, discover filters, current theatrical releases, upcoming releases, and movie details; authentication should use a server-side Bearer token rather than exposing a credential in browser code. citeturn0search0turn3search0turn3search3turn3search4
+HypeScore now has a server-side TMDB importer and a database-backed homepage. TMDB's API supports movie search, discover filters, current theatrical releases, upcoming releases, and movie details; authentication should use a server-side Bearer token rather than exposing a credential in browser code.
 
 Configure these server environment variables before running a sync:
 
@@ -58,4 +58,4 @@ Configure these server environment variables before running a sync:
 
 Then send an authenticated POST request to `/api/sync-movies?pages=3`. The importer pulls Now Playing, Upcoming and Popular movies, de-duplicates them, and stores the catalog in Prisma. HypeScore values are intentionally not copied from TMDB; they remain HypeScore's own audience-anticipation signal.
 
-TMDB watch-provider data has separate JustWatch attribution requirements, so that data should be added only with the required attribution in the product. citeturn2search3
+TMDB watch-provider data has separate JustWatch attribution requirements, so that data should be added only with the required attribution in the product.
