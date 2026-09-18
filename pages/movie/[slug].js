@@ -274,6 +274,19 @@ export default function MoviePage({ movie:rawMovie }) {
             <article><span>BOX OFFICE</span><strong>{movie.boxOffice}</strong><small>Worldwide gross</small></article>
           </section>
 
+          <section className={styles.hypeExplainer}>
+            <div className={styles.hypeExplainerLead}>
+              <p className={styles.eyebrow}>HOW HYPESCORE WORKS</p>
+              <h2>Anticipation, not a quality score.</h2>
+              <p>HypeScore measures whether people want to see a movie before they watch it. After release, audience ratings show whether the movie delivered on that expectation.</p>
+            </div>
+            <div className={styles.hypeSteps}>
+              <div><b>01</b><strong>People vote</strong><span>Yes, Maybe or No.</span></div>
+              <div><b>02</b><strong>Hype moves</strong><span>The live score reflects current anticipation.</span></div>
+              <div><b>03</b><strong>Did it deliver?</strong><span>Audience reaction is compared with release-day hype.</span></div>
+            </div>
+          </section>
+
           <section className={styles.reviewBlock} id="reviews">
             <div className={styles.blockHead}>
               <div><p className={styles.eyebrow}>THE REVIEWS</p><h2>What people think</h2></div>
