@@ -36,6 +36,19 @@ function formatDate(value) {
     : 'Release date unavailable';
 }
 
+function youtubeId(value) {
+  if (!value) return '';
+  try {
+    const url = new URL(value);
+    if (url.hostname.includes('youtu.be')) return url.pathname.replace(/^\//,'').split('/')[0];
+    if (url.searchParams.get('v')) return url.searchParams.get('v');
+    const match = url.pathname.match(/(?:embed|shorts)\/([^/?]+)/);
+    return match ? match[1] : '';
+  } catch {
+    return value.split('v=')[1]?.split('&')[0] || '';
+  }
+}
+
 function normalizeMovie(m) {
   if (!m) return fallback;
   return {
@@ -131,13 +144,17 @@ export default function MoviePage({ movie:rawMovie }) {
     return (values.reduce((a,b) => a + b, 0) / values.length).toFixed(1);
   }, [scores]);
 
-  const trailerId = movie.trailerUrl
-    ? movie.trailerUrl.split('v=')[1]?.split('&')[0] || movie.trailerUrl.split('/').pop()
-    : '';
-
+  const trailerId = youtubeId(movie.trailerUrl);
+  const trailerSearchUrl = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(movie.title + ' official trailer');
   const hypeDelivered = movie.audience ? Math.round(movie.audience * 10 - movie.hype) : null;
   const posterSrc = posterBroken ? '/movie-poster-fallback.svg' : movie.poster;
   const cast = movie.cast.filter(c => c.person?.slug).slice(0,18);
+  const directors = movie.crew.filter(c => c.person?.slug && String(c.job || '').toLowerCase().includes('director')).slice(0,4);
+
+  function openTrailer() {
+    if (trailerId) setTrailerOpen(true);
+    else if (typeof window !== 'undefined') window.open(trailerSearchUrl, '_blank', 'noopener,noreferrer');
+  }
 
   return (
     <div className={styles.site}>
@@ -163,28 +180,34 @@ export default function MoviePage({ movie:rawMovie }) {
       </header>
 
       <main>
-        <section
-          className={styles.movieHero}
-          style={{ '--movie-backdrop': movie.backdrop ? `url("${movie.backdrop}")` : 'none' }}
-        >
+        <section className={styles.movieHero} style={{ '--movie-backdrop': movie.backdrop ? `url("${movie.backdrop}")` : 'none' }}>
           <div className={styles.movieHeroShade} />
           <div className={styles.movieHeroInner}>
-            <Link href="/" className={styles.movieBack}>← Back to movies</Link>
+            <div className={styles.movieBreadcrumb}>
+              <Link href="/">Movies</Link><span>/</span><span>{movie.title}</span>
+            </div>
+
             <div className={styles.movieHeroGrid}>
-              <div className={styles.moviePosterFrame}>
-                <img
-                  className={styles.movieHeroPoster}
-                  src={posterSrc}
-                  alt={movie.title + ' poster'}
-                  onError={() => setPosterBroken(true)}
-                />
-                <div className={styles.posterBadge}>{movie.hype || '—'} <span>HYPE</span></div>
+              <div className={styles.moviePosterColumn}>
+                <div className={styles.moviePosterFrame}>
+                  <img
+                    className={styles.movieHeroPoster}
+                    src={posterSrc}
+                    alt={movie.title + ' poster'}
+                    onError={() => setPosterBroken(true)}
+                  />
+                  <div className={styles.posterBadge}><strong>{movie.hype || '—'}</strong><span>HYPE</span></div>
+                </div>
+                <button className={styles.posterTrailerButton} onClick={openTrailer}>
+                  <span>▶</span> Watch Trailer
+                </button>
               </div>
 
               <div className={styles.movieHeroCopy}>
-                <p className={styles.eyebrow}>MOVIE</p>
+                <p className={styles.eyebrow}>HYPESCORE MOVIE PAGE</p>
                 <h1>{movie.title}</h1>
                 {movie.tagline && <p className={styles.movieTagline}>{movie.tagline}</p>}
+
                 <div className={styles.movieMetaLine}>
                   <span>{movie.year || '—'}</span><i>•</i><span>{movie.runtime}</span><i>•</i><span>{movie.rating}</span>
                   {movie.genre !== '—' && <><i>•</i><span>{movie.genre}</span></>}
@@ -209,22 +232,44 @@ export default function MoviePage({ movie:rawMovie }) {
                 </div>
 
                 <div className={styles.movieHeroActions}>
-                  {trailerId && <button className={styles.primaryButton} onClick={() => setTrailerOpen(true)}>▶ Watch trailer</button>}
-                  <a className={styles.secondaryButton} href="https://www.fandango.com/" target="_blank" rel="noreferrer">Get tickets</a>
+                  <button className={styles.primaryButton} onClick={openTrailer}>▶ Watch Trailer</button>
+                  <a className={styles.secondaryButton} href="https://www.fandango.com/" target="_blank" rel="noreferrer">Get Tickets <span>↗</span></a>
                   <button className={styles.ghostButton}>＋ My Hype</button>
+                </div>
+
+                <div className={styles.heroMicrocopy}>
+                  <span>Hype is anticipation — not a quality score.</span>
+                  <Link href="/#top-hyped">See how HypeScore works →</Link>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
+        <div className={styles.movieSubnav}>
+          <div>
+            <a href="#overview">Overview</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#your-take">Your Take</a>
+            <a href="#movie-info">Movie Info</a>
+            <a href="#hype-test">Hype Test</a>
+          </div>
+        </div>
+
         <div className={styles.movieBody}>
-          <section className={styles.movieIntro}>
+          <section className={styles.movieIntro} id="overview">
             <div>
               <p className={styles.eyebrow}>THE MOVIE</p>
               <h2>What you need to know</h2>
             </div>
-            <p>{movie.overview}</p>
+            <div>
+              <p>{movie.overview}</p>
+              <div className={styles.introFacts}>
+                <span><b>{movie.release}</b><small>Release date</small></span>
+                <span><b>{movie.runtime}</b><small>Runtime</small></span>
+                <span><b>{movie.rating}</b><small>Certification</small></span>
+              </div>
+            </div>
           </section>
 
           <section className={styles.movieScoreCards}>
@@ -234,7 +279,7 @@ export default function MoviePage({ movie:rawMovie }) {
             <article><span>BOX OFFICE</span><strong>{movie.boxOffice}</strong><small>Worldwide gross</small></article>
           </section>
 
-          <section className={styles.reviewBlock}>
+          <section className={styles.reviewBlock} id="reviews">
             <div className={styles.blockHead}>
               <div><p className={styles.eyebrow}>THE REVIEWS</p><h2>What people think</h2></div>
               <div className={styles.segmented}>
@@ -249,7 +294,7 @@ export default function MoviePage({ movie:rawMovie }) {
             )}
           </section>
 
-          <section className={styles.quickReviewBlock}>
+          <section className={styles.quickReviewBlock} id="your-take">
             <div className={styles.blockHead}>
               <div><p className={styles.eyebrow}>YOUR TAKE</p><h2>Rate the movie</h2></div>
               <div className={styles.segmented}>
@@ -268,7 +313,7 @@ export default function MoviePage({ movie:rawMovie }) {
             )}
           </section>
 
-          <section className={styles.infoBlock}>
+          <section className={styles.infoBlock} id="movie-info">
             <div className={styles.infoTabs}>
               <button className={infoTab === 'basic' ? styles.infoActive : ''} onClick={() => setInfoTab('basic')}>Movie Info</button>
               <button className={infoTab === 'nerds' ? styles.infoActive : ''} onClick={() => setInfoTab('nerds')}>For the Nerds 🤓</button>
@@ -285,10 +330,16 @@ export default function MoviePage({ movie:rawMovie }) {
                   <div><span>Worldwide Box Office</span><strong>{movie.boxOffice}</strong></div>
                 </div>
 
-                {cast.length > 0 && (
+                {(cast.length > 0 || directors.length > 0) && (
                   <div className={styles.castSection}>
-                    <div className={styles.castSectionHead}><p className={styles.eyebrow}>CAST</p><h3>Who's in it</h3></div>
+                    <div className={styles.castSectionHead}><p className={styles.eyebrow}>CAST & CREW</p><h3>Who's in it</h3></div>
                     <div className={styles.castGrid}>
+                      {directors.map((c,i) => (
+                        <Link key={'d'+(c.id || i)} href={'/person/' + c.person.slug} className={styles.castCard}>
+                          <span className={styles.castName}>{c.person.name}</span>
+                          <small>Director</small>
+                        </Link>
+                      ))}
                       {cast.map((c,i) => (
                         <Link key={c.id || i} href={'/person/' + c.person.slug} className={styles.castCard}>
                           <span className={styles.castName}>{c.person.name}</span>
@@ -300,6 +351,15 @@ export default function MoviePage({ movie:rawMovie }) {
                 )}
 
                 <div className={styles.movieSynopsis}><span>Synopsis</span><p>{movie.overview}</p></div>
+
+                {movie.providers.length > 0 && (
+                  <div className={styles.watchSection}>
+                    <div><p className={styles.eyebrow}>WHERE TO WATCH</p><h3>Watch it your way</h3></div>
+                    <div className={styles.providerGrid}>
+                      {movie.providers.map((p,i) => <a key={p.id || i} href={p.url || '#'} target="_blank" rel="noreferrer"><span>{p.name}</span><small>{p.kind || 'Watch'}</small></a>)}
+                    </div>
+                  </div>
+                )}
               </>
             )}
 
@@ -308,13 +368,13 @@ export default function MoviePage({ movie:rawMovie }) {
                 <div><span>Original Language</span><strong>{rawMovie.originalLanguage || '—'}</strong></div>
                 <div><span>Source</span><strong>{rawMovie.sourceProvider || '—'}</strong></div>
                 <div><span>TMDB ID</span><strong>{rawMovie.tmdbId || '—'}</strong></div>
-                <div><span>Trailer</span><strong>{movie.trailerUrl ? 'Available' : 'Not added'}</strong></div>
+                <div><span>Trailer</span><strong>{movie.trailerUrl ? 'Available' : 'Search link available'}</strong></div>
                 <div><span>Production Companies</span><strong>{Array.isArray(rawMovie.productionCompanies) ? rawMovie.productionCompanies.map(x => x.name || x).join(', ') : '—'}</strong></div>
               </div>
             )}
           </section>
 
-          <section className={styles.deliveredPanel}>
+          <section className={styles.deliveredPanel} id="hype-test">
             <div><p className={styles.eyebrow}>THE HYPESCORE TEST</p><h2>Did it deliver?</h2></div>
             <div className={styles.deliveredMain}><strong>{hypeDelivered === null ? '—' : (hypeDelivered >= 0 ? '+' : '') + hypeDelivered}</strong><span>{hypeDelivered === null ? 'Waiting for post-watch audience ratings' : 'points vs. pre-release hype'}</span></div>
             <small>{hypeDelivered === null ? 'Hype Delivered appears once enough audience ratings are available.' : hypeDelivered >= 5 ? 'Audience reaction landed above the expectation set before release.' : hypeDelivered <= -5 ? 'Audience reaction landed below the expectation set before release.' : 'Audience reaction landed close to the expectation set before release.'}</small>
@@ -325,7 +385,7 @@ export default function MoviePage({ movie:rawMovie }) {
       {trailerOpen && (
         <div className={styles.trailerOverlay} onMouseDown={e => { if (e.target === e.currentTarget) setTrailerOpen(false); }}>
           <div className={styles.trailerModal}>
-            <div className={styles.trailerHeader}><div><p className={styles.eyebrow}>TRAILER</p><h2>{movie.title}</h2></div><button className={styles.trailerClose} onClick={() => setTrailerOpen(false)}>×</button></div>
+            <div className={styles.trailerHeader}><div><p className={styles.eyebrow}>OFFICIAL TRAILER</p><h2>{movie.title}</h2></div><button className={styles.trailerClose} aria-label="Close trailer" onClick={() => setTrailerOpen(false)}>×</button></div>
             <div className={styles.trailerFrame}><iframe src={'https://www.youtube.com/embed/' + trailerId + '?autoplay=1&rel=0'} title={movie.title + ' trailer'} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /></div>
           </div>
         </div>
