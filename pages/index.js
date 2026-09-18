@@ -12,12 +12,16 @@ const fallback = {
 
 function formatDate(value) { return value ? new Intl.DateTimeFormat('en-US', { month:'short', day:'numeric' }).format(new Date(value)) : ''; }
 
+function Poster({ movie, className = '' }) {
+  return <img className={className} src={movie.posterUrl || '/movie-poster-fallback.svg'} alt="" onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = '/movie-poster-fallback.svg'; }} />;
+}
+
 function MovieRail({ movies }) {
-  return <div className={styles.cleanRail}>{movies.map(movie => <Link key={movie.slug} href={'/movie/' + movie.slug} className={styles.cleanMovie}><div className={styles.cleanPoster}><img src={movie.posterUrl} alt="" /><span className={styles.cleanScore}>{movie.hype || '—'}</span></div><div className={styles.cleanMovieTitle}>{movie.title}</div><div className={styles.cleanMovieMeta}>{formatDate(movie.releaseDate)}</div></Link>)}</div>;
+  return <div className={styles.cleanRail}>{movies.map(movie => <Link key={movie.slug} href={'/movie/' + movie.slug} className={styles.cleanMovie}><div className={styles.cleanPoster}><Poster movie={movie} /><span className={styles.cleanScore}>{movie.hype || '—'}</span></div><div className={styles.cleanMovieTitle}>{movie.title}</div><div className={styles.cleanMovieMeta}>{formatDate(movie.releaseDate)}</div></Link>)}</div>;
 }
 
 function RankedList({ movies }) {
-  return <div className={styles.hypeRankList}>{movies.slice(0,8).map((movie,index) => <Link key={movie.slug} href={'/movie/' + movie.slug} className={styles.hypeRankRow}><span className={styles.hypeRankNumber}>{String(index+1).padStart(2,'0')}</span><img src={movie.posterUrl} alt="" /><span className={styles.hypeRankTitle}>{movie.title}<small>{formatDate(movie.releaseDate)}</small></span><strong>{movie.hype}</strong></Link>)}</div>;
+  return <div className={styles.hypeRankList}>{movies.slice(0,8).map((movie,index) => <Link key={movie.slug} href={'/movie/' + movie.slug} className={styles.hypeRankRow}><span className={styles.hypeRankNumber}>{String(index+1).padStart(2,'0')}</span><Poster movie={movie} /><span className={styles.hypeRankTitle}>{movie.title}<small>{formatDate(movie.releaseDate)}</small></span><strong>{movie.hype}</strong></Link>)}</div>;
 }
 
 export async function getServerSideProps() {
