@@ -176,3 +176,13 @@
 .trailerExternal{display:block;padding:13px 20px;color:#9da4b3;font-size:12px;text-align:right;}
 .trailerExternal:hover{color:#fff;}
 @media(max-width:600px){.trailerOverlay{padding:12px;}.trailerModal{border-radius:14px;}.trailerHeader{padding:14px 15px;}.trailerHeader h2{font-size:16px;}.trailerClose{width:34px;height:34px;font-size:24px;}}
+
+.triviaGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:5px;}
+.triviaCard{position:relative;min-height:190px;padding:25px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,#12151d,#0f1118);overflow:hidden;}
+.triviaCard:hover{border-color:rgba(255,255,255,.16);transform:translateY(-2px);transition:transform .2s ease,border-color .2s ease;}
+.triviaNumber{position:absolute;right:18px;top:14px;color:rgba(255,255,255,.08);font-size:48px;font-weight:900;line-height:1;letter-spacing:-3px;}
+.triviaCard>span{display:inline-block;color:var(--accent);font-size:9px;font-weight:850;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;}
+.triviaCard p{position:relative;margin:0;color:#a2a9b8;font-size:12px;line-height:1.7;max-width:320px;}
+.triviaNote{margin:16px 0 0;color:#626a7a;font-size:10px;line-height:1.5;}
+@media(max-width:800px){.triviaGrid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.triviaGrid{grid-template-columns:1fr;}.triviaCard{min-height:auto;}}
