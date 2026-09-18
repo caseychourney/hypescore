@@ -109,7 +109,7 @@ model HypeSnapshot {
   @@index([movieId, capturedAt])
 }
 model HypeReleaseSnapshot {
-  id String @id
+  id String @id @default(cuid())
   movieId String @unique
   releaseAt DateTime
   score Int
