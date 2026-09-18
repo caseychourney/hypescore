@@ -89,8 +89,9 @@ export async function getStaticProps({ params }) {
         cast:{ include:{ person:true }, orderBy:{ billingOrder:'asc' } },
         crew:{ include:{ person:true } },
         watchProviders:true,
-        releaseSnapshot:{ select:{ score:true } },
-        snapshots:{ orderBy:{ capturedAt:'desc' }, take:20, select:{ score:true, capturedAt:true } }
+        releaseSnapshot:{ select:{ score:true, effectiveVotes:true, rawVotes:true, releaseAt:true } },
+        snapshots:{ orderBy:{ capturedAt:'desc' }, take:20, select:{ score:true, capturedAt:true } },
+        events:{ where:{ moderation:'APPROVED' }, orderBy:{ occurredAt:'desc' }, take:12 }
       }
     });
 
@@ -138,6 +139,9 @@ export default function MoviePage({ movie:rawMovie }) {
   const [trailerOpen,setTrailerOpen] = useState(false);
   const [posterBroken,setPosterBroken] = useState(false);
   const [scores,setScores] = useState(Object.fromEntries(categories.map(c => [c,8])));
+  const [hypeChoice,setHypeChoice] = useState('');
+  const [hypeSaving,setHypeSaving] = useState(false);
+  const [hypeMessage,setHypeMessage] = useState('');
 
   const overall = useMemo(() => {
     const values = Object.values(scores);
@@ -149,6 +153,26 @@ export default function MoviePage({ movie:rawMovie }) {
   const posterSrc = posterBroken ? '/movie-poster-fallback.svg' : movie.poster;
   const cast = movie.cast.filter(c => c.person?.slug).slice(0,18);
   const directors = movie.crew.filter(c => c.person?.slug && String(c.job || '').toLowerCase().includes('director')).slice(0,4);
+
+  async function voteHype(choice) {
+    setHypeSaving(true);
+    setHypeMessage('');
+    try {
+      const response = await fetch('/api/movies/' + rawMovie.id + '/vote', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({ choice })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Unable to save');
+      setHypeChoice(choice);
+      setHypeMessage('Your Hype is saved.');
+    } catch (error) {
+      setHypeMessage(error.message);
+    } finally {
+      setHypeSaving(false);
+    }
+  }
 
   function openTrailer() {
     setTrailerOpen(true);
@@ -232,6 +256,14 @@ export default function MoviePage({ movie:rawMovie }) {
                   <button className={styles.ghostButton}>＋ My Hype</button>
                 </div>
 
+                <div className={styles.hypeVoteBox}>
+                  <div><span className={styles.hypeVoteLabel}>YOUR HYPE</span><strong>Would you watch it?</strong><small>One vote. Change it anytime before you watch.</small></div>
+                  <div className={styles.hypeVoteButtons}>
+                    {['YES','MAYBE','NO'].map(choice => <button key={choice} className={hypeChoice === choice ? styles.hypeVoteActive : ''} disabled={hypeSaving} onClick={() => voteHype(choice)}>{choice === 'YES' ? '🔥 ' : choice === 'MAYBE' ? '🤔 ' : '✋ '}{choice}</button>)}
+                  </div>
+                  {hypeMessage && <span className={styles.hypeVoteMessage}>{hypeMessage}</span>}
+                </div>
+
                 <div className={styles.heroMicrocopy}>
                   <span>Hype is anticipation — not a quality score.</span>
                   <Link href="/#top-hyped">See how HypeScore works →</Link>
@@ -301,6 +333,11 @@ export default function MoviePage({ movie:rawMovie }) {
               <div><b>02</b><strong>Hype moves</strong><span>The live score reflects current anticipation.</span></div>
               <div><b>03</b><strong>Did it deliver?</strong><span>Audience reaction is compared with release-day hype.</span></div>
             </div>
+          </section>
+
+          <section className={styles.eventTimeline} id="hype-timeline">
+            <div className={styles.blockHead}><div><p className={styles.eyebrow}>THE TIMELINE</p><h2>What changed the hype</h2></div><span className={styles.cleanSectionNote}>Verified events only</span></div>
+            {Array.isArray(rawMovie.events) && rawMovie.events.length ? <div className={styles.eventRows}>{rawMovie.events.map((event,i) => <article key={event.id || i}><time>{new Date(event.occurredAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</time><div><strong>{event.headline || event.type}</strong><p>{event.summary || 'A movie event was recorded.'}</p>{event.sourceName && <small>{event.sourceName}</small>}</div></article>)}</div> : <div className={styles.emptyTimeline}><strong>The story starts here.</strong><span>As verified movie events happen, HypeScore will show what changed and why.</span></div>}
           </section>
 
           <section className={styles.reviewBlock} id="reviews">
