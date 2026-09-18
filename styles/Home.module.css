@@ -241,3 +241,137 @@
   .heroPosterWrap { justify-self:center; width:min(300px,78vw); }
   .floatingScore { left:-18px; bottom:22px; }
 }
+
+
+/* HypeScore 2.0 clean editorial layout */
+.cleanHome { max-width:1240px; margin:0 auto; }
+.cleanSection { padding:64px 24px 48px; }
+.cleanSection + .cleanSection { border-top:1px solid var(--line); }
+.cleanSectionHead { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:24px; }
+.cleanSectionHead h1,.cleanSectionHead h2 { margin:0; font-size:42px; line-height:1; letter-spacing:-2px; }
+.cleanSectionNote,.cleanSubhead { color:#737b8c; font-size:13px; }
+.cleanSubhead { margin:7px 0 0; }
+.cleanRail { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.cleanMovie { min-width:0; }
+.cleanPoster { position:relative; aspect-ratio:2/3; overflow:hidden; border-radius:10px; background:#12151b; }
+.cleanPoster img { width:100%; height:100%; display:block; object-fit:cover; transition:transform .25s ease; }
+.cleanMovie:hover .cleanPoster img { transform:scale(1.025); }
+.cleanScore { position:absolute; top:10px; right:10px; width:42px; height:42px; display:grid; place-items:center; border-radius:50%; background:#080a0d; border:1px solid rgba(255,255,255,.16); font-weight:850; font-size:13px; }
+.cleanMovieTitle { margin-top:11px; font-size:16px; font-weight:750; line-height:1.25; letter-spacing:-.2px; }
+.cleanMovieMeta { margin-top:5px; color:#747c8d; font-size:12px; }
+.cleanNavRight { display:flex; align-items:center; gap:18px; color:#9ca3b2; font-size:13px; }
+.cleanRuleSection { margin:18px 24px 72px; padding:48px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:end; }
+.cleanRuleSection h2 { margin:0; font-size:42px; line-height:1.03; letter-spacing:-2px; }
+.cleanRuleCopy { max-width:460px; }
+.cleanRuleCopy p { color:#9299a8; line-height:1.7; margin:0 0 20px; }
+
+.trailerRail { display:grid; grid-template-columns:1.65fr 1fr 1fr; gap:14px; }
+.featureTrailer,.smallTrailer { position:relative; min-height:310px; overflow:hidden; border-radius:10px; background:#12151b; }
+.smallTrailer { min-height:310px; }
+.featureTrailer img,.smallTrailer img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .3s ease; }
+.featureTrailer:hover img,.smallTrailer:hover img { transform:scale(1.025); }
+.trailerShade { position:absolute; inset:0; background:linear-gradient(180deg,transparent 28%,rgba(4,6,9,.86) 100%); }
+.trailerCopy { position:absolute; left:20px; right:20px; bottom:19px; }
+.trailerCopy span { color:#b0b7c5; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; }
+.trailerCopy h3 { margin:5px 0 10px; font-size:22px; letter-spacing:-.7px; }
+.trailerCopy b { font-size:12px; color:#fff; }
+
+.movieClean { max-width:1000px; margin:0 auto; padding:48px 24px 80px; }
+.movieTop { display:grid; grid-template-columns:220px 1fr; gap:42px; padding:20px 0 44px; border-bottom:1px solid var(--line); }
+.movieTopPoster { width:220px; aspect-ratio:2/3; object-fit:cover; border-radius:9px; display:block; }
+.movieTopInfo { align-self:center; }
+.movieTopInfo h1 { margin:0; font-size:52px; line-height:.98; letter-spacing:-2.8px; max-width:620px; }
+.movieTopMeta { color:#858d9d; font-size:13px; margin:12px 0 26px; }
+.movieScoreLine { display:grid; grid-template-columns:1.25fr 1fr 1fr; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:20px; }
+.movieScoreLine > div { padding:16px 16px 15px 0; }
+.movieScoreLine > div + div { border-left:1px solid var(--line); padding-left:16px; }
+.movieScoreLine span,.movieScoreLine small { display:block; color:#777f90; font-size:9px; letter-spacing:1.3px; text-transform:uppercase; }
+.movieScoreLine strong { display:block; font-size:28px; letter-spacing:-1px; margin:5px 0 2px; }
+.movieScoreLine .bigHype strong { color:#ff5a78; font-size:42px; }
+.movieScoreLine small { letter-spacing:0; text-transform:none; font-size:11px; }
+.movieTopActions { display:flex; gap:9px; }
+.movieTopActions button,.movieTopActions a { display:inline-flex; align-items:center; gap:7px; }
+
+.reviewBlock,.quickReviewBlock,.infoBlock { padding:38px 0; border-bottom:1px solid var(--line); }
+.blockHead { display:flex; justify-content:space-between; align-items:end; gap:20px; margin-bottom:20px; }
+.blockHead h2 { margin:0; font-size:28px; letter-spacing:-1.3px; }
+.segmented { display:flex; border:1px solid var(--line); border-radius:8px; padding:3px; }
+.segmented button { border:0; background:transparent; color:#7e8696; padding:7px 12px; border-radius:6px; cursor:pointer; font-size:12px; }
+.segmented .activeSegment { background:#1a1e26; color:#fff; }
+.reviewSummary { display:grid; grid-template-columns:100px 190px 1fr; gap:22px; align-items:center; }
+.reviewSummary > strong { font-size:48px; line-height:1; letter-spacing:-2px; }
+.reviewSummary b,.reviewSummary span { display:block; }
+.reviewSummary b { font-size:13px; }
+.reviewSummary span { margin-top:5px; color:#747c8d; font-size:11px; }
+.reviewSummary p { margin:0; color:#858d9d; font-size:12px; line-height:1.6; }
+
+.quickReviewCompact { display:grid; grid-template-columns:125px 1fr auto; gap:28px; align-items:end; }
+.quickOverall span,.quickOverall small { display:block; color:#747c8d; font-size:10px; letter-spacing:1.2px; }
+.quickOverall strong { display:inline-block; font-size:48px; letter-spacing:-2px; margin-top:5px; }
+.compactSliders { display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; }
+.compactSliders label { display:grid; grid-template-columns:86px 20px 1fr; gap:8px; align-items:center; font-size:11px; color:#8d95a5; }
+.compactSliders b { color:#fff; }
+.compactSliders input { width:100%; accent-color:var(--accent); }
+.writeReview textarea { width:100%; min-height:150px; resize:vertical; background:#101319; border:1px solid var(--line); border-radius:8px; color:#fff; padding:15px; outline:none; }
+.writeReview > div { margin-top:12px; }
+
+.infoTabs { display:flex; gap:0; border-bottom:1px solid var(--line); margin-bottom:24px; }
+.infoTabs button { border:0; border-bottom:2px solid transparent; background:transparent; color:#747c8d; padding:12px 18px 11px 0; margin-right:22px; cursor:pointer; font-size:13px; font-weight:700; }
+.infoTabs .infoActive { color:#fff; border-bottom-color:var(--accent); }
+.infoGrid { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); }
+.infoGrid div { padding:17px 18px 17px 0; border-bottom:1px solid var(--line); }
+.infoGrid span { display:block; color:#727a8a; font-size:10px; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.infoGrid strong { font-size:14px; font-weight:650; }
+.triviaList { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.triviaList article { padding:18px 0; border-top:1px solid var(--line); }
+.triviaList b { color:#ff5a78; font-size:12px; }
+.triviaList p { margin:12px 0 0; color:#9098a8; font-size:13px; line-height:1.6; }
+.deliveredLine { display:grid; grid-template-columns:160px 1fr auto; gap:18px; align-items:center; padding:24px 0; }
+.deliveredLine span { color:#747c8d; font-size:10px; letter-spacing:1.4px; }
+.deliveredLine strong { font-size:15px; }
+.deliveredLine small { color:#747c8d; font-size:11px; }
+
+@media(max-width:900px){
+  .cleanRail { grid-template-columns:repeat(2,1fr); }
+  .trailerRail { grid-template-columns:1fr 1fr; }
+  .featureTrailer { grid-column:1/-1; }
+  .movieTop { grid-template-columns:170px 1fr; gap:26px; }
+  .movieTopPoster { width:170px; }
+  .movieTopInfo h1 { font-size:42px; }
+  .quickReviewCompact { grid-template-columns:100px 1fr; }
+  .quickReviewCompact > .primaryButton { grid-column:1/-1; justify-self:start; }
+}
+@media(max-width:700px){
+  .cleanNavRight { display:none; }
+  .navLinks { display:none; }
+  .cleanSection { padding:46px 16px 34px; }
+  .cleanSectionHead h1,.cleanSectionHead h2 { font-size:32px; }
+  .cleanSectionNote { display:none; }
+  .cleanRail { grid-template-columns:repeat(2,1fr); gap:16px; }
+  .cleanMovie:nth-child(n+5) { display:none; }
+  .cleanRuleSection { margin:10px 16px 50px; grid-template-columns:1fr; gap:20px; padding:34px 0; }
+  .cleanRuleSection h2 { font-size:34px; }
+  .trailerRail { grid-template-columns:1fr; }
+  .featureTrailer,.smallTrailer { min-height:250px; }
+  .movieClean { padding:28px 16px 55px; }
+  .movieTop { grid-template-columns:105px 1fr; gap:18px; padding-top:10px; }
+  .movieTopPoster { width:105px; border-radius:7px; }
+  .movieTopInfo h1 { font-size:30px; letter-spacing:-1.5px; }
+  .movieTopMeta { font-size:11px; line-height:1.5; margin:8px 0 16px; }
+  .movieScoreLine { grid-template-columns:1fr 1fr; }
+  .movieScoreLine > div { padding:11px 8px 11px 0; }
+  .movieScoreLine > div:nth-child(3) { grid-column:1/-1; border-left:0; border-top:1px solid var(--line); padding-left:0; }
+  .movieScoreLine .bigHype strong { font-size:34px; }
+  .movieScoreLine strong { font-size:23px; }
+  .movieTopActions { flex-wrap:wrap; }
+  .movieTopActions a,.movieTopActions button { padding:10px 12px; font-size:11px; }
+  .blockHead { align-items:start; flex-direction:column; }
+  .reviewSummary { grid-template-columns:75px 1fr; gap:12px; }
+  .reviewSummary > strong { font-size:38px; }
+  .reviewSummary p { grid-column:1/-1; }
+  .quickReviewCompact { grid-template-columns:1fr; }
+  .compactSliders { grid-template-columns:1fr; }
+  .infoGrid { grid-template-columns:1fr 1fr; }
+  .triviaList { grid-template-columns:1fr; }
+  .deliveredLine { grid-template-columns:1fr; gap:7px; }
+}
