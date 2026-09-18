@@ -210,6 +210,16 @@ export default function Home() {
           </div></div>
         </section>
 
+        <section className={styles.scoreStrip}>
+          <div><p className={styles.eyebrow}>ONE MOVIE. EVERY ANGLE.</p><h2>Everything you need to decide.</h2><div className={styles.scoreStripGrid}>
+            <article><span>🔥</span><strong>HypeScore</strong><p>What audiences want to see before they watch.</p></article>
+            <article><span>🎬</span><strong>Critic Average</strong><p>Professional review scores, kept separate from hype.</p></article>
+            <article><span>🍿</span><strong>Audience</strong><p>What people who watched it thought.</p></article>
+            <article><span>💰</span><strong>Box Office</strong><p>Opening weekend, domestic and worldwide performance.</p></article>
+            <article><span>🎟️</span><strong>Tickets</strong><p>Find showtimes and continue to Fandango.</p></article>
+          </div></div>
+        </section>
+
         <section className={styles.section} id="quick-review">
           <div className={styles.reviewLayout}>
             <div className={styles.reviewIntro}>
