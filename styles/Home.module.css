@@ -186,3 +186,15 @@
 .triviaNote{margin:16px 0 0;color:#626a7a;font-size:10px;line-height:1.5;}
 @media(max-width:800px){.triviaGrid{grid-template-columns:1fr 1fr;}}
 @media(max-width:600px){.triviaGrid{grid-template-columns:1fr;}.triviaCard{min-height:auto;}}
+
+
+.scoreStrip { padding: 0 24px 70px; }
+.scoreStrip > div { max-width:1132px; margin:auto; padding:34px; border:1px solid var(--line); border-radius:24px; background:linear-gradient(135deg,#141722,#0d0f15); }
+.scoreStrip h2 { margin:0 0 24px; font-size:32px; letter-spacing:-1.5px; }
+.scoreStripGrid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+.scoreStripGrid article { padding:18px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.025); }
+.scoreStripGrid article span { font-size:22px; display:block; margin-bottom:14px; }
+.scoreStripGrid article strong { font-size:14px; }
+.scoreStripGrid article p { color:#7e8697; font-size:11px; line-height:1.55; margin:7px 0 0; }
+@media (max-width: 900px) { .scoreStripGrid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width: 600px) { .scoreStrip { padding-left:14px; padding-right:14px; } .scoreStrip > div { padding:24px 18px; } .scoreStripGrid { grid-template-columns:1fr; } }
