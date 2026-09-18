@@ -50,10 +50,34 @@ export async function getStaticProps({ params }) {
   return { props: { movie: movieData[params.slug], slug: params.slug } };
 }
 
+const triviaBySlug = {
+  'practical-magic-2': [
+    { label: 'Legacy', text: 'The sequel reunites Sandra Bullock and Nicole Kidman nearly three decades after the 1998 original.' },
+    { label: 'New generation', text: 'Joey King and Maisie Williams play Sally Owens\' grown daughters, bringing a new generation into the Owens family story.' },
+    { label: 'Filming', text: 'Principal photography took place in England, including Warner Bros. Studios Leavesden, Devon and London.' },
+  ],
+  'spider-man-brand-new-day': [
+    { label: 'MCU history', text: 'The film follows the events of Spider-Man: No Way Home, after the spell that erased Peter Parker from everyone\'s memory.' },
+    { label: 'Secret casting', text: 'Decoy names were reportedly used to help keep Sadie Sink\'s character secret during production.' },
+    { label: 'Old-school callback', text: 'A scene from The Empire Strikes Back appears on one of Ned\'s computer screens, echoing a reference from Captain America: Civil War.' },
+  ],
+  'the-odyssey': [
+    { label: 'IMAX first', text: 'The Odyssey became the first feature film shot entirely with IMAX film cameras.' },
+    { label: 'Around the world', text: 'Production lasted 91 days and used locations across countries including Greece, Italy, Morocco, Iceland and Scotland.' },
+    { label: 'Big format', text: 'More than two million feet of IMAX 70mm film was used during production.' },
+  ],
+  'coyote-vs-acme': [
+    { label: 'Long road', text: 'The film was originally planned for a 2023 theatrical release before being removed from Warner Bros.\' schedule.' },
+    { label: 'Second life', text: 'Ketchup Entertainment acquired the film and brought it back for a 2026 theatrical release.' },
+    { label: 'Marketing', text: 'The film\'s theatrical trailers began rolling out in 2026 ahead of its release.' },
+  ],
+};
+
 const categories = ['Writing', 'Acting', 'Story', 'Characters', 'Visuals', 'Music', 'Entertainment'];
 
 export default function MoviePage({ movie }) {
   const events = movie.events;
+  const trivia = triviaBySlug[Object.keys(movieData).find((key) => movieData[key] === movie)] || [];
   const [scores, setScores] = useState(Object.fromEntries(categories.map((c) => [c, 8])));
   const [spoiler, setSpoiler] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -155,6 +179,20 @@ export default function MoviePage({ movie }) {
         <section className={styles.detailSection}>
           <div className={styles.detailTitle}><p className={styles.eyebrow}>NERD STATS</p><h2>The stuff movie people ask about.</h2></div>
           <div className={styles.nerdGrid}><div><span>Runtime</span><strong>{movie.runtime}</strong></div><div><span>Rating</span><strong>{movie.rating}</strong></div><div><span>Release</span><strong>{movie.release}</strong></div><div><span>Budget</span><strong>{movie.budget}</strong></div><div><span>Box office</span><strong>{movie.boxOffice}</strong></div><div><span>Format</span><strong>IMAX / 2D</strong></div><div><span>Sound</span><strong>Dolby Atmos</strong></div><div><span>After credits</span><strong>2 scenes</strong></div></div>
+        </section>
+
+        <section className={styles.detailSection}>
+          <div className={styles.detailTitle}><p className={styles.eyebrow}>DID YOU KNOW?</p><h2>Movie trivia.</h2></div>
+          <div className={styles.triviaGrid}>
+            {trivia.map((item, index) => (
+              <article className={styles.triviaCard} key={item.label}>
+                <div className={styles.triviaNumber}>0{index + 1}</div>
+                <span>{item.label}</span>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+          <p className={styles.triviaNote}>Trivia is compiled from published production and movie-reference sources. Facts can be updated as new information becomes available.</p>
         </section>
 
         <section className={styles.detailSection}>
