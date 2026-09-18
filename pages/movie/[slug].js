@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from '../../styles/Home.module.css';
 
 const movieData = {
@@ -8,7 +8,7 @@ const movieData = {
     title: 'Superman', year: 2025, release: 'July 11, 2025', runtime: '2h 9m',
     genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 92, momentum: 8,
     audience: 8.7, critic: 91, voters: 1842, budget: '$225M', boxOffice: '$618.7M',
-    poster: 'https://image.tmdb.org/t/p/w780/ombsmhYUqR4qqOLOxAyr5V8hbyv.jpg',
+    poster: 'https://image.tmdb.org/t/p/w780/ombsmhYUqR4qqOLOxAyr5V8hbyv.jpg', trailerId: 'Ox8ZLF6cGM0',
     backdrop: 'https://image.tmdb.org/t/p/w1280/9whEVuKte4Qi0LI4TzG7hH4wR7G.jpg',
     events: [['JUL 2024','Casting revealed','+4'],['FEB 2025','First teaser','+6'],['MAR 2025','Trailer released','+8'],['JUN 2025','Early reactions','-2']]
   },
@@ -16,7 +16,7 @@ const movieData = {
     title: 'The Fantastic Four: First Steps', year: 2025, release: 'July 25, 2025', runtime: '1h 55m',
     genre: 'Action • Adventure • Sci-Fi', rating: 'PG-13', hype: 88, momentum: 5,
     audience: 8.0, critic: 86, voters: 1267, budget: '$200M+', boxOffice: '$521.9M',
-    poster: 'https://image.tmdb.org/t/p/w780/x26MtUlwtWD26d0G0FXcppxCJio.jpg',
+    poster: 'https://image.tmdb.org/t/p/w780/x26MtUlwtWD26d0G0FXcppxCJio.jpg', trailerId: 'pAsmrKyMqaA',
     backdrop: 'https://image.tmdb.org/t/p/w1280/1G7f4x2Z9w3d0vV8cJ9mJ2yQ2vB.jpg',
     events: [['JUN 2024','Cast revealed','+4'],['NOV 2024','First look','+5'],['FEB 2025','Trailer released','+7'],['JUL 2025','Early reactions','+3']]
   },
@@ -24,7 +24,7 @@ const movieData = {
     title: 'Dune: Part Two', year: 2024, release: 'March 1, 2024', runtime: '2h 46m',
     genre: 'Sci-Fi • Adventure • Drama', rating: 'PG-13', hype: 86, momentum: -2,
     audience: 8.6, critic: 92, voters: 4210, budget: '$190M', boxOffice: '$714.8M',
-    poster: 'https://image.tmdb.org/t/p/w780/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
+    poster: 'https://image.tmdb.org/t/p/w780/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg', trailerId: 'U2Qp5pL3ovA',
     backdrop: 'https://image.tmdb.org/t/p/w1280/7q6q3h3w5c5v7v0f5m8n2w2g6qM.jpg',
     events: [['MAY 2023','First teaser','+5'],['DEC 2023','Trailer released','+8'],['FEB 2024','Early reactions','+4'],['MAR 2024','Audience reviews','-2']]
   },
@@ -32,7 +32,7 @@ const movieData = {
     title: 'Deadpool & Wolverine', year: 2024, release: 'July 26, 2024', runtime: '2h 8m',
     genre: 'Action • Comedy • Marvel', rating: 'R', hype: 89, momentum: 4,
     audience: 8.3, critic: 78, voters: 3875, budget: '$200M', boxOffice: '$1.338B',
-    poster: 'https://image.tmdb.org/t/p/w780/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
+    poster: 'https://image.tmdb.org/t/p/w780/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg', trailerId: '73_1biulkYk',
     backdrop: 'https://image.tmdb.org/t/p/w1280/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg',
     events: [['FEB 2024','First teaser','+6'],['APR 2024','Trailer released','+7'],['JUN 2024','New clip','+4'],['JUL 2024','Audience reviews','+4']]
   }
@@ -53,6 +53,16 @@ export default function MoviePage({ movie }) {
   const [scores, setScores] = useState(Object.fromEntries(categories.map((c) => [c, 8])));
   const [spoiler, setSpoiler] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [trailerOpen, setTrailerOpen] = useState(false);
+
+  useEffect(() => {
+    if (!trailerOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setTrailerOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [trailerOpen]);
 
   const overall = useMemo(() => {
     const v = Object.values(scores);
@@ -88,7 +98,7 @@ export default function MoviePage({ movie }) {
               <h1>{movie.title}</h1>
               <p className={styles.detailMeta}>{movie.year} · {movie.runtime} · {movie.rating} · {movie.genre}</p>
               <p className={styles.detailLead}>The score people use before they buy the ticket — and the score they check after the credits.</p>
-              <div className={styles.detailActions}><button className={styles.primaryButton}>Watch trailer <span>▶</span></button><button className={styles.secondaryButton} onClick={() => setSaved(!saved)}>{saved ? 'In My Hype ✓' : '+ My Hype'}</button></div>
+              <div className={styles.detailActions}><button className={styles.primaryButton} onClick={() => setTrailerOpen(true)}>Watch trailer <span>▶</span></button><button className={styles.secondaryButton} onClick={() => setSaved(!saved)}>{saved ? 'In My Hype ✓' : '+ My Hype'}</button></div>
               <div className={styles.detailScores}>
                 <div><span>HYPE SCORE</span><strong>{movie.hype}</strong><small>↗ +{movie.momentum} this week</small></div>
                 <div><span>CRITIC SCORE</span><strong>{movie.critic}</strong><small>aggregated</small></div>
@@ -156,6 +166,20 @@ export default function MoviePage({ movie }) {
             <button className={styles.shareButton} onClick={() => navigator.clipboard?.writeText(window.location.href)}>Copy share link <span>→</span></button>
           </div>
         </section>
+        {trailerOpen && (
+          <div className={styles.trailerOverlay} role="dialog" aria-modal="true" aria-label={`Watch the ${movie.title} trailer`} onMouseDown={(event) => { if (event.target === event.currentTarget) setTrailerOpen(false); }}>
+            <div className={styles.trailerModal}>
+              <div className={styles.trailerHeader}>
+                <div><p className={styles.eyebrow}>OFFICIAL TRAILER</p><h2>{movie.title}</h2></div>
+                <button className={styles.trailerClose} onClick={() => setTrailerOpen(false)} aria-label="Close trailer">×</button>
+              </div>
+              <div className={styles.trailerFrame}>
+                <iframe src={`https://www.youtube.com/embed/${movie.trailerId}?autoplay=1&rel=0`} title={`${movie.title} official trailer`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+              </div>
+              <a className={styles.trailerExternal} href={`https://www.youtube.com/watch?v=${movie.trailerId}`} target="_blank" rel="noreferrer">Open on YouTube ↗</a>
+            </div>
+          </div>
+        )}
       </main>
       <footer className={styles.footer}><div><Link href="/" className={styles.brand}><span className={styles.brandMark}>H</span><span>Hype<span>Score</span></span></Link><p>Track the hype. See what delivered.</p></div><p>© 2026 HypeScore</p></footer>
     </div>
