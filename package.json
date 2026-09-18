@@ -9,7 +9,8 @@
     "test": "jest",
     "db:seed": "node prisma/seed.js",
     "db:migrate": "prisma migrate deploy",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma migrate deploy && next build"
   },
   "dependencies": {
     "@prisma/client": "^6.15.0",
