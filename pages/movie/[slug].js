@@ -90,7 +90,7 @@ export async function getStaticProps({ params }) {
         crew:{ include:{ person:true } },
         watchProviders:true,
         releaseSnapshot:{ select:{ score:true } },
-        snapshots:{ orderBy:{ capturedAt:'desc' }, take:1, select:{ score:true } }
+        snapshots:{ orderBy:{ capturedAt:'desc' }, take:20, select:{ score:true, capturedAt:true } }
       }
     });
 
@@ -273,6 +273,22 @@ export default function MoviePage({ movie:rawMovie }) {
             <article><span>AUDIENCE</span><strong>{movie.audience ? movie.audience.toFixed(1) : '—'}</strong><small>Post-watch audience reaction</small></article>
             <article><span>BOX OFFICE</span><strong>{movie.boxOffice}</strong><small>Worldwide gross</small></article>
           </section>
+
+          {Array.isArray(rawMovie.snapshots) && rawMovie.snapshots.length > 1 && (
+            <section className={styles.hypeHistory}>
+              <div className={styles.hypeHistoryHead}>
+                <div><p className={styles.eyebrow}>HYPE OVER TIME</p><h2>Watch the anticipation move.</h2></div>
+                <span>{rawMovie.snapshots.length} snapshots</span>
+              </div>
+              <div className={styles.hypeBars}>
+                {[...rawMovie.snapshots].reverse().map((point, i) => (
+                  <div key={point.capturedAt || i} className={styles.hypeBarCol} title={new Date(point.capturedAt).toLocaleDateString()}>
+                    <div className={styles.hypeBar} style={{ height: Math.max(8, Math.round((point.score / 100) * 100)) + '%' }}><b>{point.score}</b></div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           <section className={styles.hypeExplainer}>
             <div className={styles.hypeExplainerLead}>
