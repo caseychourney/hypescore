@@ -71,6 +71,7 @@ function normalizeMovie(m) {
     overview:m.overview || 'No synopsis has been added yet.',
     tagline:m.tagline || '',
     trailerUrl:m.trailerUrl || '',
+    status:m.status || 'UPCOMING',
     cast:Array.isArray(m.cast) ? m.cast : [],
     crew:Array.isArray(m.crew) ? m.crew : [],
     providers:Array.isArray(m.watchProviders) ? m.watchProviders : []
@@ -267,13 +268,13 @@ export default function MoviePage({ movie:rawMovie }) {
                   <button className={styles.ghostButton}>＋ My Hype</button>
                 </div>
 
-                <div className={styles.hypeVoteBox}>
+                {movie.status === 'UPCOMING' && <div className={styles.hypeVoteBox}>
                   <div><span className={styles.hypeVoteLabel}>YOUR HYPE</span><strong>Would you watch it?</strong><small>One vote. Change it anytime before you watch.</small></div>
                   <div className={styles.hypeVoteButtons}>
                     {['YES','MAYBE','NO'].map(choice => <button key={choice} className={hypeChoice === choice ? styles.hypeVoteActive : ''} disabled={hypeSaving} onClick={() => voteHype(choice)}>{choice === 'YES' ? '🔥 ' : choice === 'MAYBE' ? '🤔 ' : '✋ '}{choice}</button>)}
                   </div>
                   {hypeMessage && <span className={styles.hypeVoteMessage}>{hypeMessage}</span>}
-                </div>
+                </div>}
 
                 <div className={styles.heroMicrocopy}>
                   <span>Hype is anticipation — not a quality score.</span>
